@@ -9,5 +9,12 @@
 #ifndef CWImagePicker_h
 #define CWImagePicker_h
 
+#import "CWImageManager.h"
+#import "CWIPSystemImagePickViewController.h"
+#import "CWImagePickerViewController.h"
+#import "CWImageMarco.h"
+#import "CWIPImagePickerDelegate.h"
+#import "UIViewController+CWAlertView.h"
+#import "CWCropImageViewController.h"
 
 #endif /* CWImagePicker_h */

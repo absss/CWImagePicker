@@ -7,9 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9E09B0161FD63A7400365732 /* AlbumList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9E09B0151FD63A7400365732 /* AlbumList.plist */; };
+		9E4D62291FDA2C3500789DF5 /* UIViewController+CWAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E4D62001FDA2C3500789DF5 /* UIViewController+CWAlertView.m */; };
+		9E4D622A1FDA2C3500789DF5 /* CWIPCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E4D62011FDA2C3500789DF5 /* CWIPCache.m */; };
+		9E4D622B1FDA2C3500789DF5 /* CWIPTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E4D62021FDA2C3500789DF5 /* CWIPTool.m */; };
+		9E4D622C1FDA2C3500789DF5 /* CWImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E4D62031FDA2C3500789DF5 /* CWImageManager.m */; };
+		9E4D622D1FDA2C3500789DF5 /* CWAllImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E4D620A1FDA2C3500789DF5 /* CWAllImageViewController.m */; };
+		9E4D622E1FDA2C3500789DF5 /* CWAlbumCategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E4D620D1FDA2C3500789DF5 /* CWAlbumCategoryViewController.m */; };
+		9E4D622F1FDA2C3500789DF5 /* CWImageScanCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E4D620E1FDA2C3500789DF5 /* CWImageScanCollectionViewController.m */; };
+		9E4D62301FDA2C3500789DF5 /* CWCropImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E4D620F1FDA2C3500789DF5 /* CWCropImageViewController.m */; };
+		9E4D62311FDA2C3500789DF5 /* CWIPSystemImagePickViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E4D62101FDA2C3500789DF5 /* CWIPSystemImagePickViewController.m */; };
+		9E4D62321FDA2C3500789DF5 /* CWImagePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E4D62111FDA2C3500789DF5 /* CWImagePickerViewController.m */; };
+		9E4D62331FDA2C3500789DF5 /* CWIPBaseCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E4D62151FDA2C3500789DF5 /* CWIPBaseCollectionViewController.m */; };
+		9E4D62341FDA2C3500789DF5 /* CWIPImagePickerOption.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E4D621B1FDA2C3500789DF5 /* CWIPImagePickerOption.m */; };
+		9E4D62351FDA2C3500789DF5 /* CWAlbumModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E4D621C1FDA2C3500789DF5 /* CWAlbumModel.m */; };
+		9E4D62361FDA2C3500789DF5 /* CWIPAssetModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E4D621D1FDA2C3500789DF5 /* CWIPAssetModel.m */; };
+		9E4D62371FDA2C3500789DF5 /* CWImageScanCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E4D621F1FDA2C3500789DF5 /* CWImageScanCollectionViewCell.m */; };
+		9E4D62381FDA2C3500789DF5 /* CWIPProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E4D62201FDA2C3500789DF5 /* CWIPProgressView.m */; };
+		9E4D62391FDA2C3500789DF5 /* CWIPCropFrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E4D62241FDA2C3500789DF5 /* CWIPCropFrameView.m */; };
+		9E4D623A1FDA2C3500789DF5 /* CWIPImageOperateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E4D62261FDA2C3500789DF5 /* CWIPImageOperateView.m */; };
+		9E4D623B1FDA2C3500789DF5 /* CWIPResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9E4D62281FDA2C3500789DF5 /* CWIPResource.bundle */; };
+		9EBD29B91FC7F8F2004505DF /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EBD29B81FC7F8F2004505DF /* MainViewController.m */; };
 		DD117C071FC012B100D80AA4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DD117C061FC012B100D80AA4 /* AppDelegate.m */; };
-		DD117C0A1FC012B100D80AA4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD117C091FC012B100D80AA4 /* ViewController.m */; };
-		DD117C0D1FC012B100D80AA4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD117C0B1FC012B100D80AA4 /* Main.storyboard */; };
 		DD117C0F1FC012B100D80AA4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD117C0E1FC012B100D80AA4 /* Assets.xcassets */; };
 		DD117C121FC012B100D80AA4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD117C101FC012B100D80AA4 /* LaunchScreen.storyboard */; };
 		DD117C151FC012B100D80AA4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DD117C141FC012B100D80AA4 /* main.m */; };
@@ -35,12 +54,52 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9E09B0151FD63A7400365732 /* AlbumList.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = AlbumList.plist; sourceTree = "<group>"; };
+		9E4D61FE1FDA2C3500789DF5 /* CWIPImagePickerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWIPImagePickerDelegate.h; sourceTree = "<group>"; };
+		9E4D61FF1FDA2C3500789DF5 /* CWImageMarco.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWImageMarco.h; sourceTree = "<group>"; };
+		9E4D62001FDA2C3500789DF5 /* UIViewController+CWAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+CWAlertView.m"; sourceTree = "<group>"; };
+		9E4D62011FDA2C3500789DF5 /* CWIPCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWIPCache.m; sourceTree = "<group>"; };
+		9E4D62021FDA2C3500789DF5 /* CWIPTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWIPTool.m; sourceTree = "<group>"; };
+		9E4D62031FDA2C3500789DF5 /* CWImageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWImageManager.m; sourceTree = "<group>"; };
+		9E4D62041FDA2C3500789DF5 /* UIViewController+CWAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+CWAlertView.h"; sourceTree = "<group>"; };
+		9E4D62051FDA2C3500789DF5 /* CWIPCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWIPCache.h; sourceTree = "<group>"; };
+		9E4D62061FDA2C3500789DF5 /* CWImageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWImageManager.h; sourceTree = "<group>"; };
+		9E4D62071FDA2C3500789DF5 /* CWIPTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWIPTool.h; sourceTree = "<group>"; };
+		9E4D62091FDA2C3500789DF5 /* CWIPSystemImagePickViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWIPSystemImagePickViewController.h; sourceTree = "<group>"; };
+		9E4D620A1FDA2C3500789DF5 /* CWAllImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWAllImageViewController.m; sourceTree = "<group>"; };
+		9E4D620B1FDA2C3500789DF5 /* CWImagePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWImagePickerViewController.h; sourceTree = "<group>"; };
+		9E4D620C1FDA2C3500789DF5 /* CWIPBaseCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWIPBaseCollectionViewController.h; sourceTree = "<group>"; };
+		9E4D620D1FDA2C3500789DF5 /* CWAlbumCategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWAlbumCategoryViewController.m; sourceTree = "<group>"; };
+		9E4D620E1FDA2C3500789DF5 /* CWImageScanCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWImageScanCollectionViewController.m; sourceTree = "<group>"; };
+		9E4D620F1FDA2C3500789DF5 /* CWCropImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWCropImageViewController.m; sourceTree = "<group>"; };
+		9E4D62101FDA2C3500789DF5 /* CWIPSystemImagePickViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWIPSystemImagePickViewController.m; sourceTree = "<group>"; };
+		9E4D62111FDA2C3500789DF5 /* CWImagePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWImagePickerViewController.m; sourceTree = "<group>"; };
+		9E4D62121FDA2C3500789DF5 /* CWAllImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWAllImageViewController.h; sourceTree = "<group>"; };
+		9E4D62131FDA2C3500789DF5 /* CWAlbumCategoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWAlbumCategoryViewController.h; sourceTree = "<group>"; };
+		9E4D62141FDA2C3500789DF5 /* CWImageScanCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWImageScanCollectionViewController.h; sourceTree = "<group>"; };
+		9E4D62151FDA2C3500789DF5 /* CWIPBaseCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWIPBaseCollectionViewController.m; sourceTree = "<group>"; };
+		9E4D62161FDA2C3500789DF5 /* CWCropImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWCropImageViewController.h; sourceTree = "<group>"; };
+		9E4D62181FDA2C3500789DF5 /* CWIPImagePickerOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWIPImagePickerOption.h; sourceTree = "<group>"; };
+		9E4D62191FDA2C3500789DF5 /* CWAlbumModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWAlbumModel.h; sourceTree = "<group>"; };
+		9E4D621A1FDA2C3500789DF5 /* CWIPAssetModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWIPAssetModel.h; sourceTree = "<group>"; };
+		9E4D621B1FDA2C3500789DF5 /* CWIPImagePickerOption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWIPImagePickerOption.m; sourceTree = "<group>"; };
+		9E4D621C1FDA2C3500789DF5 /* CWAlbumModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWAlbumModel.m; sourceTree = "<group>"; };
+		9E4D621D1FDA2C3500789DF5 /* CWIPAssetModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWIPAssetModel.m; sourceTree = "<group>"; };
+		9E4D621F1FDA2C3500789DF5 /* CWImageScanCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWImageScanCollectionViewCell.m; sourceTree = "<group>"; };
+		9E4D62201FDA2C3500789DF5 /* CWIPProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWIPProgressView.m; sourceTree = "<group>"; };
+		9E4D62211FDA2C3500789DF5 /* CWIPCropFrameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWIPCropFrameView.h; sourceTree = "<group>"; };
+		9E4D62221FDA2C3500789DF5 /* CWIPImageOperateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWIPImageOperateView.h; sourceTree = "<group>"; };
+		9E4D62231FDA2C3500789DF5 /* CWImageScanCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWImageScanCollectionViewCell.h; sourceTree = "<group>"; };
+		9E4D62241FDA2C3500789DF5 /* CWIPCropFrameView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWIPCropFrameView.m; sourceTree = "<group>"; };
+		9E4D62251FDA2C3500789DF5 /* CWIPProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWIPProgressView.h; sourceTree = "<group>"; };
+		9E4D62261FDA2C3500789DF5 /* CWIPImageOperateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWIPImageOperateView.m; sourceTree = "<group>"; };
+		9E4D62281FDA2C3500789DF5 /* CWIPResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = CWIPResource.bundle; sourceTree = "<group>"; };
+		9EBD29901FC7AD22004505DF /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		9EBD29B81FC7F8F2004505DF /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		9EC789471FDA327F00136F0B /* CWImagePicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CWImagePicker.h; sourceTree = "<group>"; };
 		DD117C021FC012B100D80AA4 /* test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = test.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD117C051FC012B100D80AA4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		DD117C061FC012B100D80AA4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		DD117C081FC012B100D80AA4 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		DD117C091FC012B100D80AA4 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		DD117C0C1FC012B100D80AA4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DD117C0E1FC012B100D80AA4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DD117C111FC012B100D80AA4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DD117C131FC012B100D80AA4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -78,6 +137,93 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9E4D61FC1FDA2C3500789DF5 /* CWImagePicker */ = {
+			isa = PBXGroup;
+			children = (
+				9E4D62081FDA2C3500789DF5 /* Controller */,
+				9E4D62171FDA2C3500789DF5 /* Model */,
+				9E4D61FD1FDA2C3500789DF5 /* Other */,
+				9E4D62271FDA2C3500789DF5 /* Resource */,
+				9E4D621E1FDA2C3500789DF5 /* View */,
+			);
+			path = CWImagePicker;
+			sourceTree = "<group>";
+		};
+		9E4D61FD1FDA2C3500789DF5 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				9EC789471FDA327F00136F0B /* CWImagePicker.h */,
+				9E4D62061FDA2C3500789DF5 /* CWImageManager.h */,
+				9E4D62031FDA2C3500789DF5 /* CWImageManager.m */,
+				9E4D61FF1FDA2C3500789DF5 /* CWImageMarco.h */,
+				9E4D62051FDA2C3500789DF5 /* CWIPCache.h */,
+				9E4D62011FDA2C3500789DF5 /* CWIPCache.m */,
+				9E4D61FE1FDA2C3500789DF5 /* CWIPImagePickerDelegate.h */,
+				9E4D62071FDA2C3500789DF5 /* CWIPTool.h */,
+				9E4D62021FDA2C3500789DF5 /* CWIPTool.m */,
+				9E4D62041FDA2C3500789DF5 /* UIViewController+CWAlertView.h */,
+				9E4D62001FDA2C3500789DF5 /* UIViewController+CWAlertView.m */,
+			);
+			path = Other;
+			sourceTree = "<group>";
+		};
+		9E4D62081FDA2C3500789DF5 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				9E4D62131FDA2C3500789DF5 /* CWAlbumCategoryViewController.h */,
+				9E4D620D1FDA2C3500789DF5 /* CWAlbumCategoryViewController.m */,
+				9E4D62121FDA2C3500789DF5 /* CWAllImageViewController.h */,
+				9E4D620A1FDA2C3500789DF5 /* CWAllImageViewController.m */,
+				9E4D62161FDA2C3500789DF5 /* CWCropImageViewController.h */,
+				9E4D620F1FDA2C3500789DF5 /* CWCropImageViewController.m */,
+				9E4D620B1FDA2C3500789DF5 /* CWImagePickerViewController.h */,
+				9E4D62111FDA2C3500789DF5 /* CWImagePickerViewController.m */,
+				9E4D62141FDA2C3500789DF5 /* CWImageScanCollectionViewController.h */,
+				9E4D620E1FDA2C3500789DF5 /* CWImageScanCollectionViewController.m */,
+				9E4D620C1FDA2C3500789DF5 /* CWIPBaseCollectionViewController.h */,
+				9E4D62151FDA2C3500789DF5 /* CWIPBaseCollectionViewController.m */,
+				9E4D62091FDA2C3500789DF5 /* CWIPSystemImagePickViewController.h */,
+				9E4D62101FDA2C3500789DF5 /* CWIPSystemImagePickViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		9E4D62171FDA2C3500789DF5 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				9E4D62191FDA2C3500789DF5 /* CWAlbumModel.h */,
+				9E4D621C1FDA2C3500789DF5 /* CWAlbumModel.m */,
+				9E4D621A1FDA2C3500789DF5 /* CWIPAssetModel.h */,
+				9E4D621D1FDA2C3500789DF5 /* CWIPAssetModel.m */,
+				9E4D62181FDA2C3500789DF5 /* CWIPImagePickerOption.h */,
+				9E4D621B1FDA2C3500789DF5 /* CWIPImagePickerOption.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		9E4D621E1FDA2C3500789DF5 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				9E4D62231FDA2C3500789DF5 /* CWImageScanCollectionViewCell.h */,
+				9E4D621F1FDA2C3500789DF5 /* CWImageScanCollectionViewCell.m */,
+				9E4D62211FDA2C3500789DF5 /* CWIPCropFrameView.h */,
+				9E4D62241FDA2C3500789DF5 /* CWIPCropFrameView.m */,
+				9E4D62221FDA2C3500789DF5 /* CWIPImageOperateView.h */,
+				9E4D62261FDA2C3500789DF5 /* CWIPImageOperateView.m */,
+				9E4D62251FDA2C3500789DF5 /* CWIPProgressView.h */,
+				9E4D62201FDA2C3500789DF5 /* CWIPProgressView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		9E4D62271FDA2C3500789DF5 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				9E4D62281FDA2C3500789DF5 /* CWIPResource.bundle */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
 		DD117BF91FC012B100D80AA4 = {
 			isa = PBXGroup;
 			children = (
@@ -101,11 +247,12 @@
 		DD117C041FC012B100D80AA4 /* test */ = {
 			isa = PBXGroup;
 			children = (
+				9E4D61FC1FDA2C3500789DF5 /* CWImagePicker */,
 				DD117C051FC012B100D80AA4 /* AppDelegate.h */,
 				DD117C061FC012B100D80AA4 /* AppDelegate.m */,
-				DD117C081FC012B100D80AA4 /* ViewController.h */,
-				DD117C091FC012B100D80AA4 /* ViewController.m */,
-				DD117C0B1FC012B100D80AA4 /* Main.storyboard */,
+				9EBD29901FC7AD22004505DF /* MainViewController.h */,
+				9EBD29B81FC7F8F2004505DF /* MainViewController.m */,
+				9E09B0151FD63A7400365732 /* AlbumList.plist */,
 				DD117C0E1FC012B100D80AA4 /* Assets.xcassets */,
 				DD117C101FC012B100D80AA4 /* LaunchScreen.storyboard */,
 				DD117C131FC012B100D80AA4 /* Info.plist */,
@@ -240,7 +387,8 @@
 			files = (
 				DD117C121FC012B100D80AA4 /* LaunchScreen.storyboard in Resources */,
 				DD117C0F1FC012B100D80AA4 /* Assets.xcassets in Resources */,
-				DD117C0D1FC012B100D80AA4 /* Main.storyboard in Resources */,
+				9E4D623B1FDA2C3500789DF5 /* CWIPResource.bundle in Resources */,
+				9E09B0161FD63A7400365732 /* AlbumList.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -265,8 +413,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD117C0A1FC012B100D80AA4 /* ViewController.m in Sources */,
+				9E4D62341FDA2C3500789DF5 /* CWIPImagePickerOption.m in Sources */,
+				9E4D62371FDA2C3500789DF5 /* CWImageScanCollectionViewCell.m in Sources */,
+				9E4D622E1FDA2C3500789DF5 /* CWAlbumCategoryViewController.m in Sources */,
+				9E4D622A1FDA2C3500789DF5 /* CWIPCache.m in Sources */,
 				DD117C151FC012B100D80AA4 /* main.m in Sources */,
+				9E4D62311FDA2C3500789DF5 /* CWIPSystemImagePickViewController.m in Sources */,
+				9E4D62351FDA2C3500789DF5 /* CWAlbumModel.m in Sources */,
+				9E4D623A1FDA2C3500789DF5 /* CWIPImageOperateView.m in Sources */,
+				9E4D622D1FDA2C3500789DF5 /* CWAllImageViewController.m in Sources */,
+				9E4D622C1FDA2C3500789DF5 /* CWImageManager.m in Sources */,
+				9E4D62381FDA2C3500789DF5 /* CWIPProgressView.m in Sources */,
+				9E4D62331FDA2C3500789DF5 /* CWIPBaseCollectionViewController.m in Sources */,
+				9E4D622B1FDA2C3500789DF5 /* CWIPTool.m in Sources */,
+				9EBD29B91FC7F8F2004505DF /* MainViewController.m in Sources */,
+				9E4D62361FDA2C3500789DF5 /* CWIPAssetModel.m in Sources */,
+				9E4D622F1FDA2C3500789DF5 /* CWImageScanCollectionViewController.m in Sources */,
+				9E4D62391FDA2C3500789DF5 /* CWIPCropFrameView.m in Sources */,
+				9E4D62301FDA2C3500789DF5 /* CWCropImageViewController.m in Sources */,
+				9E4D62321FDA2C3500789DF5 /* CWImagePickerViewController.m in Sources */,
+				9E4D62291FDA2C3500789DF5 /* UIViewController+CWAlertView.m in Sources */,
 				DD117C071FC012B100D80AA4 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -303,14 +469,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		DD117C0B1FC012B100D80AA4 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				DD117C0C1FC012B100D80AA4 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		DD117C101FC012B100D80AA4 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -431,9 +589,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YGT797GAUJ;
 				INFOPLIST_FILE = test/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "-23.test";
+				PRODUCT_BUNDLE_IDENTIFIER = hehaichi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -444,9 +603,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YGT797GAUJ;
 				INFOPLIST_FILE = test/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "-23.test";
+				PRODUCT_BUNDLE_IDENTIFIER = hehaichi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
