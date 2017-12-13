@@ -18,7 +18,7 @@ picker.cwDelegate = self;
 [self presentViewController:picker2 animated:YES completion:nil];
 
 注意事项：
-3 只支持iOS8以上系统
+1 只支持iOS8以上系统
 2 拍照需要真机
 3 在info.plist文件中确保存在以下keys:
 Privacy - Camera Usage Description   //使用相机
