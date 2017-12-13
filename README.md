@@ -1,5 +1,7 @@
 如何使用：
+1 导入文件，遵循协议
 
+2 弹出视图
 CWIPImagePickerOption * option = [[CWIPImagePickerOption alloc]init];
 //可裁剪
 option.needCrop = YES;
@@ -16,6 +18,8 @@ picker2.cwDelegate = self;
 picker.cwDelegate = self;
 //弹出
 [self presentViewController:picker2 animated:YES completion:nil];
+
+3 实现协议方法
 
 注意事项：
 1 只支持iOS8以上系统
