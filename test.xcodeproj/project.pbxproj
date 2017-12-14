@@ -27,6 +27,7 @@
 		9E4D62391FDA2C3500789DF5 /* CWIPCropFrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E4D62241FDA2C3500789DF5 /* CWIPCropFrameView.m */; };
 		9E4D623A1FDA2C3500789DF5 /* CWIPImageOperateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E4D62261FDA2C3500789DF5 /* CWIPImageOperateView.m */; };
 		9E4D623B1FDA2C3500789DF5 /* CWIPResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9E4D62281FDA2C3500789DF5 /* CWIPResource.bundle */; };
+		9E71B9A91FE2291F00E7A893 /* CWIPLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9E71B9A71FE2291F00E7A893 /* CWIPLocalizable.strings */; };
 		9EBD29B91FC7F8F2004505DF /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EBD29B81FC7F8F2004505DF /* MainViewController.m */; };
 		DD117C071FC012B100D80AA4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DD117C061FC012B100D80AA4 /* AppDelegate.m */; };
 		DD117C0F1FC012B100D80AA4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD117C0E1FC012B100D80AA4 /* Assets.xcassets */; };
@@ -94,6 +95,9 @@
 		9E4D62251FDA2C3500789DF5 /* CWIPProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWIPProgressView.h; sourceTree = "<group>"; };
 		9E4D62261FDA2C3500789DF5 /* CWIPImageOperateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWIPImageOperateView.m; sourceTree = "<group>"; };
 		9E4D62281FDA2C3500789DF5 /* CWIPResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = CWIPResource.bundle; sourceTree = "<group>"; };
+		9E71B9981FE2056900E7A893 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		9E71B9A81FE2291F00E7A893 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/CWIPLocalizable.strings; sourceTree = "<group>"; };
+		9E71B9AA1FE2292A00E7A893 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/CWIPLocalizable.strings"; sourceTree = "<group>"; };
 		9EBD29901FC7AD22004505DF /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		9EBD29B81FC7F8F2004505DF /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		9EC789471FDA327F00136F0B /* CWImagePicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CWImagePicker.h; sourceTree = "<group>"; };
@@ -219,6 +223,7 @@
 		9E4D62271FDA2C3500789DF5 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				9E71B9A71FE2291F00E7A893 /* CWIPLocalizable.strings */,
 				9E4D62281FDA2C3500789DF5 /* CWIPResource.bundle */,
 			);
 			path = Resource;
@@ -367,6 +372,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = DD117BF91FC012B100D80AA4;
 			productRefGroup = DD117C031FC012B100D80AA4 /* Products */;
@@ -389,6 +395,7 @@
 				DD117C0F1FC012B100D80AA4 /* Assets.xcassets in Resources */,
 				9E4D623B1FDA2C3500789DF5 /* CWIPResource.bundle in Resources */,
 				9E09B0161FD63A7400365732 /* AlbumList.plist in Resources */,
+				9E71B9A91FE2291F00E7A893 /* CWIPLocalizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -469,10 +476,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		9E71B9A71FE2291F00E7A893 /* CWIPLocalizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9E71B9A81FE2291F00E7A893 /* en */,
+				9E71B9AA1FE2292A00E7A893 /* zh-Hans */,
+			);
+			name = CWIPLocalizable.strings;
+			sourceTree = "<group>";
+		};
 		DD117C101FC012B100D80AA4 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				DD117C111FC012B100D80AA4 /* Base */,
+				9E71B9981FE2056900E7A893 /* zh-Hans */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -484,6 +501,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -539,6 +557,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

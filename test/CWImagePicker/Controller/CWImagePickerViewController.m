@@ -64,7 +64,7 @@
     //设置导航栏返回按钮的颜色
     self.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18], NSForegroundColorAttributeName:[UIColor whiteColor]}];
-    UIBarButtonItem * item = [[UIBarButtonItem alloc]initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(cancelAction)];
+    UIBarButtonItem * item = [[UIBarButtonItem alloc]initWithTitle:CWIPlocalString(@"CWIPStr_Cancel") style:UIBarButtonItemStylePlain target:self action:@selector(cancelAction)];
     self.navigationItem.rightBarButtonItem = item;
 }
 
@@ -74,12 +74,12 @@
 
 - (void)setBackbarItemChinese:(UIViewController *)vc{
     UIBarButtonItem *backIetm = [[UIBarButtonItem alloc] init];
-    backIetm.title = @"返回";
+    backIetm.title = CWIPlocalString(@"CWIPStr_Back");
     vc.navigationItem.backBarButtonItem = backIetm;
 }
 
 - (void)setCancelButton:(UIViewController *)vc{
-    UIBarButtonItem * item = [[UIBarButtonItem alloc]initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(cancelAction)];
+    UIBarButtonItem * item = [[UIBarButtonItem alloc]initWithTitle:CWIPlocalString(@"CWIPStr_Cancel") style:UIBarButtonItemStylePlain target:self action:@selector(cancelAction)];
     vc.navigationItem.rightBarButtonItem = item;
 }
 

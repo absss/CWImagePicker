@@ -143,7 +143,7 @@
 - (void)loadAllImageData{
     [CWImageManager getAllAssetsAndThumbnailImagesArray:^(NSArray<CWIPAssetModel *> *array) {
         self.dataArray = array;
-         self.title = @"所有图片";    
+         self.title = CWIPlocalString(@"CWIPStr_Title_allImage");
     }];
 }
 
@@ -234,7 +234,7 @@ static NSString * reuseId = @"CWIPAllImageViewCollectionViewCell";
 #pragma mark - CWIPAllImageViewCollectionViewCellDelegate
 - (void)didSelectedImageWithAssetModel:(CWIPAssetModel *)assetModel sender:(UIButton *)sender{
     if (self.selectedAssetModelArray.count >= [CWImageManager shareIntance].option.maxAllowCount && sender.selected) {
-        NSString * str = [NSString stringWithFormat:@"您最多只能选%ld张", [CWImageManager shareIntance].option.maxAllowCount];
+        NSString * str = [NSString stringWithFormat:CWIPlocalString(@"CWIPStr_Alert_maxSelectCount"), [CWImageManager shareIntance].option.maxAllowCount];
         sender.selected = NO;
         [self alertViewWithTitle:str];
         return;

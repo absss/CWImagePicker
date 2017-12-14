@@ -92,7 +92,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"照片";
+    self.title = CWIPlocalString(@"CWIPStr_Phonos");
      [self.view addSubview:self.tableView];
     self.view.backgroundColor = [UIColor whiteColor];
     

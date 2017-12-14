@@ -25,6 +25,7 @@ typedef NS_ENUM(NSInteger, CWImagePickerControllerSourceType) {
  */
 @property(nonatomic,assign)CGSize cropFrameSize;
 
+@property(nonatomic,assign)UIEdgeInsets cropFrameInsets;
 /**
  允许放大的最大倍数
  */

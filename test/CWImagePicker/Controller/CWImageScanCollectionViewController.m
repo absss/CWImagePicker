@@ -353,7 +353,7 @@ const static int kBigImageCollectionViewTag = 999;
 - (void)selectAction:(UIButton *)sender{
    
     if (self.selectedAssetArray.count >= [CWImageManager shareIntance].option.maxAllowCount &&  sender.selected) {
-        NSString * str = [NSString stringWithFormat:@"您最多只能选%ld张", [CWImageManager shareIntance].option.maxAllowCount];
+        NSString * str = [NSString stringWithFormat:CWIPlocalString(@"CWIPStr_Alert_maxSelectCount"), [CWImageManager shareIntance].option.maxAllowCount];
         [self alertViewWithTitle:str];
         sender.selected = NO;
         return;

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 @class CWIPAssetModel;
 @protocol CWIPImagePickerDelegate <NSObject>
-@required
+@optional
 - (UIViewController *)viewController;
 /**
  返回裁剪后的图片

@@ -24,6 +24,7 @@
 #define CWIPRandomColor CWIPRandom(arc4random_uniform(256), arc4random_uniform(256), arc4random_uniform(256), arc4random_uniform(256))
 #define CWIPScreenHeight ([UIScreen mainScreen].bounds.size.height)
 #define CWIPScreenWidth  ([UIScreen mainScreen].bounds.size.width)
+#define CWIPlocalString(keyName) (NSLocalizedStringFromTable(keyName,@"CWIPLocalizable",nil))
 
 #define CWIPRectLog(imageContainerRect) NSLog(@"x:%lf,y:%lf,w:%lf,h:%lf",imageContainerRect.origin.x,imageContainerRect.origin.y,imageContainerRect.size.width,imageContainerRect.size.height);
 #define CWIPPointLogi(point) NSLog(@"x:%lf,y:%lf",point.x,point.y);

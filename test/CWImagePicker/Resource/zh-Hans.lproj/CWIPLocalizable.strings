@@ -1,0 +1,17 @@
+/* 
+  CWIPLocalizable.strings
+  test
+
+  Created by hehaichi on 2017/12/14.
+  Copyright © 2017年 app. All rights reserved.
+*/
+"CWIPStr_Title_allImage" = "所有图片";
+"CWIPStr_Alert_maxSelectCount" = "您最多只能选择%ld张";
+"CWIPStr_Back" = "返回";
+"CWIPStr_Cancel" = "取消";
+"CWIPStr_Send" = "发送";
+"CWIPStr_Confirm" = "确认";
+"CWIPStr_Phonos" = "照片";
+"CWIPStr_selectImageTitle" = "选取图片";
+"CWIPStr_SendImage" = "发送(%ld)";
+"CWIPStr_Scan" = "预览";

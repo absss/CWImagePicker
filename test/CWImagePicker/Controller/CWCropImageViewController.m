@@ -7,6 +7,7 @@
 //
 
 #import "CWCropImageViewController.h"
+#import "CWImageManager.h"
 
 @interface CWCropImageViewController ()
 @property(nonatomic,strong)UIImage *originalImage;
@@ -37,6 +38,8 @@
 - (id)initWithImage:(UIImage *)originalImage cropFrame:(CGRect)cropFrame limitScaleRatio:(NSInteger)limitRatio {
     self = [super init];
     if (self) {
+        UIEdgeInsets insets = [CWImageManager shareIntance].option.cropFrameInsets;
+        cropFrame.origin = CGPointMake(cropFrame.origin.x + insets.left - insets.right, cropFrame.origin.y + insets.top - insets.bottom);
         self.cropFrame = cropFrame;
         self.limitRatio = limitRatio;
         self.originalImage = originalImage;
@@ -116,9 +119,8 @@
 }
 
 - (void)setupNavigationBar{
-    UIBarButtonItem * leftItem = [[UIBarButtonItem alloc]initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)];
-    UIBarButtonItem * rightItem = [[UIBarButtonItem alloc]initWithTitle:@"确定" style:UIBarButtonItemStylePlain target:self action:@selector(confirm:)];
-     [rightItem setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor orangeColor]} forState:UIControlStateNormal];
+    UIBarButtonItem * leftItem = [[UIBarButtonItem alloc]initWithTitle:CWIPlocalString(@"CWIPStr_Cancel") style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)];
+    UIBarButtonItem * rightItem = [[UIBarButtonItem alloc]initWithTitle:CWIPlocalString(@"CWIPStr_Confirm") style:UIBarButtonItemStylePlain target:self action:@selector(confirm:)];
     self.navigationItem.leftBarButtonItem = leftItem;
     self.navigationItem.rightBarButtonItem = rightItem;
 }

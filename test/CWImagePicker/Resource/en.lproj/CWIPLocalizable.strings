@@ -1,0 +1,17 @@
+/* 
+  CWIPLocalizable.strings
+  test
+
+  Created by hehaichi on 2017/12/14.
+  Copyright © 2017年 app. All rights reserved.
+*/
+"CWIPStr_Title_allImage" = "All Image";
+"CWIPStr_Alert_maxSelectCount" = "You can only choose %ld sheets at most";
+"CWIPStr_Back" = "Back";
+"CWIPStr_Cancel" = "Cancel";
+"CWIPStr_Send" = "Send";
+"CWIPStr_Confirm" = "Confirm";
+"CWIPStr_Phonos" = "Phonos";
+"CWIPStr_selectImageTitle" = "Select image";
+"CWIPStr_SendImage" = "Send(%ld)";
+"CWIPStr_Scan" = "Scan";

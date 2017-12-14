@@ -74,9 +74,9 @@
     if ([CWImageManager shareIntance].option.needCrop) {
         CGFloat w = [CWImageManager shareIntance].option.cropFrameSize.width;
         CGFloat h = [CWImageManager shareIntance].option.cropFrameSize.height;
-        CWCropImageViewController * cropVc = [[CWCropImageViewController alloc]initWithImage:portraitImg cropFrame:CGRectMake(self.view.center.x-w/2, self.view.center.y-h/2, w, h) limitScaleRatio:[CWImageManager shareIntance].option.allowMaxZoomScale];
+        CWCropImageViewController * cropVc = [[CWCropImageViewController alloc]initWithImage:portraitImg cropFrame:CGRectMake(CWIPScreenWidth/2-w/2, CWIPScreenHeight/2-h/2, w, h) limitScaleRatio:[CWImageManager shareIntance].option.allowMaxZoomScale];
         cropVc.delegate = self;
-        cropVc.title = @"选取图片";
+        cropVc.title = CWIPlocalString(@"CWIPStr_selectImageTitle");
 //        cropVc.navigationController.navigationBarHidden = NO;
         
         if (![self.visibleViewController isKindOfClass:NSClassFromString(@"CWCropImageViewController")]) {
