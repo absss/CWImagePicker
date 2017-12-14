@@ -78,14 +78,28 @@
         [self presentViewController:picker animated:YES completion:nil];
         
     }];
+    UIAlertAction * action4 = [UIAlertAction actionWithTitle:@"选择多张图片" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        CWIPImagePickerOption * option = [[CWIPImagePickerOption alloc]init];
+        //可裁剪
+        option.needCrop = NO;
+        option.isMultiPage = YES;
+        option.sourceType = UIImagePickerControllerSourceTypeAlbum;
+        CWImagePickerViewController * picker = [[CWImagePickerViewController alloc]initWithOption: option];
+        //设置代理
+        picker.cwDelegate = self;
+        //弹出
+        [self presentViewController:picker animated:YES completion:nil];
+        
+    }];
     
   
-    UIAlertAction * action4 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction * action5 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
     
     [ac addAction:action1];
     [ac addAction:action2];
     [ac addAction:action3];
     [ac addAction:action4];
+     [ac addAction:action5];
     
     [self presentViewController:ac animated:YES completion:nil];
     

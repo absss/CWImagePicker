@@ -16,7 +16,7 @@ typedef NS_ENUM(NSInteger, CWImagePickerControllerSourceType) {
 @interface CWIPImagePickerOption : NSObject
 
 /**
- 是否需要裁剪，默认否
+ 是否需要裁剪，默认是
  */
 @property(nonatomic,assign)BOOL needCrop;
 
