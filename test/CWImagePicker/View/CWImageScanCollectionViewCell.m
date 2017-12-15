@@ -39,6 +39,8 @@
         }
 
     } withProgressBlock:nil];
+    //collectionview复用时，会有两个cell存在于内存中，但是没有被显示的那个cell中的图片应该也被销毁
+    [self clearOriginImageifDontNeed];
 }
 
 - (void)setAllowMinScale:(CGFloat)allowMinScale{
@@ -111,6 +113,12 @@
     
 }
 #pragma mark - private method
+- (void)clearOriginImageifDontNeed{
+    if (!self.imageAsset.isDisplay) {
+        self.imageView.image = nil;
+    }
+}
+
 - (CGFloat)zoomImageWithSize:(CGSize)targetSize animate:(BOOL)animate{
     CGFloat wScale =  targetSize.width/CGRectGetWidth(self.imageView.frame);
     CGFloat targetScale = wScale;

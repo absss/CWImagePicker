@@ -55,4 +55,5 @@
 - (void)resizeContainerView;
 - (CGRect)imageViewRectWithImageLoad;
 - (CGFloat)zoomImageWithSize:(CGSize)targetSize animate:(BOOL)animate;
+- (void)clearOriginImageifDontNeed;
 @end

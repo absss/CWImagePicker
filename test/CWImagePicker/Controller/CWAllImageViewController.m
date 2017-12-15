@@ -62,7 +62,7 @@
     if (image) {
         _imageView.image = image;
     }else{
-        //缓存图片
+        //把所有的缩略图都缓存起来也消耗不了多大内存(实测)，但是理论上会让滑动速度变快，关键是在大图不显示的时候，一定不能让它存在于内存中，一张小图也就几万像素，一张大图几百万像素，差了一万倍
         [CWImageManager thumbnailImageWithAsset:imageAsset withImageSize:_imageView.frame.size withCompleteBlock:^(UIImage *image,NSDictionary *info) {
             _imageView.image = image;
             [[CWImageManager shareIntance].cache setObject:image forKey:imageAsset.asset.localIdentifier];
