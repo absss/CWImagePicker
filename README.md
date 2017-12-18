@@ -4,6 +4,10 @@
 
 邮箱：hehaichi123@163.com
 
+gif1.gif
+gif2.gif
+gif3.gif
+
 大图浏览中，只有在大图被浏览的时候，才将大图载入内存中，一张照片基本上都是几百万像素，是一张缩略图的一万倍，不显示的时候，一定要将它销毁。
 
 如何使用：
@@ -41,6 +45,8 @@ picker.cwDelegate = self;
 [self presentViewController:picker2 animated:YES completion:nil];
 
 3 实现协议方法
+
+.....
 
 注意事项：
 
