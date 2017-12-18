@@ -4,6 +4,9 @@
 
 邮箱：hehaichi123@163.com
 
+![https://github.com/absss/CWImagePicker/blob/master/gif1.gif]
+![https://github.com/absss/CWImagePicker/blob/master/gif1.gif]
+![https://github.com/absss/CWImagePicker/blob/master/gif1.gif]
 
 大图浏览中，只有在大图被浏览的时候，才将大图载入内存中，一张照片基本上都是几百万像素，是一张缩略图的一万倍，不显示的时候，一定要将它销毁。
 
