@@ -65,6 +65,7 @@
 {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor blackColor];
+        self.title = CWIPlocalString(@"CWIPStr_selectImageTitle");
     
     [self initView];
     

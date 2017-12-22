@@ -62,7 +62,7 @@
 - (UIImageView *)thumbnailImageView{
     if (!_thumbnailImageView) {
         _thumbnailImageView = [[UIImageView alloc]init];
-        _thumbnailImageView.backgroundColor = CWIPRandomColor;
+        _thumbnailImageView.backgroundColor = [UIColor whiteColor];
         
     }
     return _thumbnailImageView;

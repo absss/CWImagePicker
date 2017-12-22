@@ -76,7 +76,7 @@
         CGFloat h = [CWImageManager shareIntance].option.cropFrameSize.height;
         CWCropImageViewController * cropVc = [[CWCropImageViewController alloc]initWithImage:portraitImg cropFrame:CGRectMake(CWIPScreenWidth/2-w/2, CWIPScreenHeight/2-h/2, w, h) limitScaleRatio:[CWImageManager shareIntance].option.allowMaxZoomScale];
         cropVc.delegate = self;
-        cropVc.title = CWIPlocalString(@"CWIPStr_selectImageTitle");
+//        cropVc.title = CWIPlocalString(@"CWIPStr_selectImageTitle");
 //        cropVc.navigationController.navigationBarHidden = NO;
         
         if (![self.visibleViewController isKindOfClass:NSClassFromString(@"CWCropImageViewController")]) {
