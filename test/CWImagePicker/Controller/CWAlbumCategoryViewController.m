@@ -14,10 +14,12 @@
 @property(nonatomic,strong)UILabel * albumTitleLabel;
 @property(nonatomic,strong)UIView * sepLine;
 @property(nonatomic,strong)CWAlbumModel * albumModel;
+@property(nonatomic,assign)NSInteger count;
 @end
 @implementation CWAlbumCategoryTableViewCell
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     if(self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]){
+        _count = 0;
         [self.contentView addSubview:self.thumbnailImageView];
         [self.contentView addSubview:self.albumTitleLabel];
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -32,6 +34,7 @@
     _albumModel = albumModel;
     NSArray * albumArr = [CWImageManager assetsWithAlbumCollection:albumModel];
     NSInteger count = albumArr.count;
+    _count = count;
     NSString * title = albumModel.assetCollection.localizedTitle;
     if (count>0) {
             [CWImageManager thumbnailImageWithAsset:albumArr.lastObject withImageSize:CGSizeMake(CGRectGetHeight(self.frame), CGRectGetHeight(self.frame)) withCompleteBlock:^(UIImage *image, NSDictionary *info) {
@@ -39,7 +42,7 @@
             }];
 
     }else{
-        self.thumbnailImageView.image = [UIImage imageNamed:@"CWIPResource.bundle/thumbnailImage.png"];
+        self.thumbnailImageView.image = [UIImage imageNamed:@"CWIPResource.bundle/placeholder.png"];
     }
     
     NSString * str = [NSString stringWithFormat:@"%@(%ld)",title,count];
@@ -79,7 +82,12 @@
 - (void)layoutSubviews{
     CGFloat w = CGRectGetHeight(self.frame);
     self.albumTitleLabel.frame = CGRectMake(w+15, 1, CGRectGetWidth(self.contentView.frame) -w -20, w-2);
-    self.thumbnailImageView.frame = CGRectMake(0,0, w, w);
+    if (_count > 0) {
+        self.thumbnailImageView.frame = CGRectMake(0,0, w, w);
+    }else{
+        self.thumbnailImageView.frame = CGRectMake(5,5, w-10, w-10);
+    }
+    
     self.sepLine.frame = CGRectMake(0, w-0.5, CGRectGetWidth(self.frame), 0.5);
 }
 @end
