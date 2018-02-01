@@ -8,6 +8,11 @@
 
 #import "CWImageManager.h"
 
+#define EKOIPiOS9Later ([UIDevice currentDevice].systemVersion.floatValue >= 9.0f)
+#define EKOIPiOS10_2Later ([UIDevice currentDevice].systemVersion.floatValue >= 10.2f)
+#define EKOIPiOS10_3Later ([UIDevice currentDevice].systemVersion.floatValue >= 10.3f)
+#define EKOIPiOS11Later ([UIDevice currentDevice].systemVersion.floatValue >= 11.0f)
+
 @implementation CWImageManager
 + (instancetype)shareIntance{
     static dispatch_once_t onceToken;
@@ -31,24 +36,73 @@
 }
 
 + (void)getAllAlbumArray:(void(^)(NSArray <CWAlbumModel *>*array))completion{
-      NSMutableArray * albumArray = @[].mutableCopy;
+    NSMutableArray *albums = [NSMutableArray array];
+    
     //获取相机胶卷相册
-    PHFetchResult<PHAssetCollection *> *cameraRollCollections = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
-    for (PHAssetCollection * album in cameraRollCollections) {
-        CWAlbumModel * cw_album = [CWAlbumModel new];
-        cw_album.assetCollection = album;
-        [albumArray addObject:cw_album];
+    NSMutableArray *assetSubtypes = @[
+                                      //                        @(PHAssetCollectionSubtypeSmartAlbumUserLibrary),//所有图片
+                                      //                        @(PHAssetCollectionSubtypeSmartAlbumSelfPortraits),//自拍 iOS9
+                                      //                        @(PHAssetCollectionSubtypeSmartAlbumScreenshots),//屏幕快照 iOS9
+                                      //                        @(PHAssetCollectionSubtypeSmartAlbumBursts),//连拍快照
+                                      //                        @(PHAssetCollectionSubtypeSmartAlbumPanoramas),//全景照片
+                                      //                        @(PHAssetCollectionSubtypeSmartAlbumRecentlyAdded),//最近添加
+                                      //                        @(PHAssetCollectionSubtypeSmartAlbumFavorites),//个人收藏
+                                      //                        @(PHAssetCollectionSubtypeSmartAlbumDepthEffect),//人像 iOS10.2
+                                      //                        @(PHAssetCollectionSubtypeSmartAlbumLivePhotos), //实况图片 iOS 10.3
+                                      //                        @(PHAssetCollectionSubtypeSmartAlbumLongExposures),//长曝光 iOS11
+                                      //                        @(PHAssetCollectionSubtypeSmartAlbumAnimated),//动图 iOS11
+                                      ].mutableCopy;
+    
+    [assetSubtypes addObject:@(PHAssetCollectionSubtypeSmartAlbumUserLibrary)];
+    if (EKOIPiOS9Later) {
+        [assetSubtypes addObject:@(PHAssetCollectionSubtypeSmartAlbumSelfPortraits)];
+        [assetSubtypes addObject:@(PHAssetCollectionSubtypeSmartAlbumScreenshots)];
+    }
+    [assetSubtypes addObject:@(PHAssetCollectionSubtypeSmartAlbumBursts)];
+    [assetSubtypes addObject:@(PHAssetCollectionSubtypeSmartAlbumPanoramas)];
+    [assetSubtypes addObject:@(PHAssetCollectionSubtypeSmartAlbumRecentlyAdded)];
+    [assetSubtypes addObject:@(PHAssetCollectionSubtypeSmartAlbumFavorites)];
+    if (EKOIPiOS10_2Later) {
+        [assetSubtypes addObject:@(PHAssetCollectionSubtypeSmartAlbumDepthEffect)];
+    }
+    if (EKOIPiOS10_3Later) {
+        [assetSubtypes addObject:@(PHAssetCollectionSubtypeSmartAlbumLivePhotos)];
+    }
+    if (EKOIPiOS11Later) {
+        [assetSubtypes addObject:@(PHAssetCollectionSubtypeSmartAlbumLongExposures)];
+        [assetSubtypes addObject:@(PHAssetCollectionSubtypeSmartAlbumAnimated)];
     }
     
-    //获取自定义相册
+    for (int i = 0; i < assetSubtypes.count; i++) {
+        PHAssetCollectionSubtype type = (PHAssetCollectionSubtype )[assetSubtypes[i] integerValue];
+        PHFetchResult<PHAssetCollection *> *cameraRollCollections = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:type options:nil];
+        for (PHAssetCollection * album in cameraRollCollections) {
+            NSInteger estimatedCount = album.estimatedAssetCount;
+            if (estimatedCount>0||estimatedCount == NSNotFound) {
+                CWAlbumModel * model = [CWAlbumModel new];
+                model.assetCollection = album;
+                
+                if (album.assetCollectionSubtype == PHAssetCollectionSubtypeSmartAlbumUserLibrary) {
+                    [albums insertObject:model atIndex:0];
+                }else{
+                    [albums addObject:model];
+                }
+            }
+        }
+    }
+    
+    //用户自定义的相册
     PHFetchResult<PHAssetCollection *> *assetCollections = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
     for (PHAssetCollection * album in assetCollections) {
-        CWAlbumModel * cw_album = [CWAlbumModel alloc];
-        cw_album.assetCollection = album;
-        [albumArray addObject:cw_album];
+        NSInteger estimatedCount = album.estimatedAssetCount;
+        if (estimatedCount>0||estimatedCount == NSNotFound) {
+            CWAlbumModel * cw_album = [CWAlbumModel alloc];
+            cw_album.assetCollection = album;
+            [albums addObject:cw_album];
+        }
     }
-    if (completion && albumArray.count>0) {
-        completion((NSArray *)albumArray);
+    if (completion) {
+        completion((NSArray *)albums);
     }
 }
 

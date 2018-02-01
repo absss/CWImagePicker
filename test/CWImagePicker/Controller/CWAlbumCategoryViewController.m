@@ -137,13 +137,7 @@ static NSString * reuseId = @"CWAlbumCategoryTableViewCell";
 - (UITableView *)tableView{
     if (!_tableView) {
         _tableView = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStyleGrouped];
-        if (!self.navigationController.navigationBar.translucent) {
-            CGRect frame = _tableView.frame;
-            NSLog(@"%d",self.navigationController.navigationBar.translucent);
-            CGFloat h = [UIApplication sharedApplication].statusBarFrame.size.height + CGRectGetHeight(self.navigationController.navigationBar.frame);
-            frame.size.height = frame.size.height -h;
-            _tableView.frame = frame;
-        }
+
         _tableView.dataSource = self;
         _tableView.delegate = self;
         _tableView.estimatedSectionHeaderHeight = 0.01;

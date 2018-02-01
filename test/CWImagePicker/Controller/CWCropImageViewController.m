@@ -249,8 +249,31 @@
     return newFrame;
 }
 
+
+/**
+ 裁剪图片
+
+ @return 裁剪后的图片
+ */
+- (UIImage *)clipImage{
+    //截取全屏
+    UIGraphicsBeginImageContext(CGSizeMake(CWIPScreenWidth, CWIPScreenHeight));
+    [self.view.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    //截取所需区域
+    CGRect captureRect = self.cropFrame;
+    CGImageRef sourceImageRef = [image CGImage];
+    CGImageRef newImageRef = CGImageCreateWithImageInRect(sourceImageRef, captureRect);
+    UIImage *newImage = [UIImage imageWithCGImage:newImageRef];
+    
+    return newImage;
+}
+
 - (UIImage *)getSubImage{
     CGRect squareFrame = self.cropFrame;
+    self.latestFrame = self.showImgView.frame;
     CGFloat scaleRatio = self.latestFrame.size.width / self.originalImage.size.width;
     CGFloat x = (squareFrame.origin.x - self.latestFrame.origin.x) / scaleRatio;
     CGFloat y = (squareFrame.origin.y - self.latestFrame.origin.y) / scaleRatio;
