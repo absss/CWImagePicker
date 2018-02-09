@@ -81,7 +81,8 @@
     UIAlertAction * action31 = [UIAlertAction actionWithTitle:@"选择单张图片" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         CWIPImagePickerOption * option = [[CWIPImagePickerOption alloc]init];
         //可裁剪
-        option.needCrop = YES;
+        option.needCrop = NO;
+        option.isMultiPage = YES;
         option.sourceType = UIImagePickerControllerSourceTypeAlbum;
         CWImagePickerViewController * picker = [[CWImagePickerViewController alloc]initWithOption: option];
         //设置代理
