@@ -19,12 +19,14 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     UIImageView * imageView = [[UIImageView alloc]initWithFrame:CGRectMake(CGRectGetWidth(self.view.frame)/2-30 ,CGRectGetHeight(self.view.frame)/2-30, 60, 60)];
+    
     [self.view addSubview:imageView];
     imageView.backgroundColor= [UIColor grayColor];
     imageView.layer.cornerRadius = 30;
     imageView.layer.masksToBounds = YES;
     imageView.tag = 100;
     imageView.userInteractionEnabled = YES;
+    imageView.contentMode = UIViewContentModeScaleAspectFill;
     UITapGestureRecognizer * reg = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(action)];
     [imageView addGestureRecognizer:reg];
 }
@@ -130,6 +132,20 @@
 
 - (void)cwNavigationBarForCWImagePicker:(UINavigationBar *)navigationBar{
      navigationBar.barTintColor = [UIColor colorWithWhite:0.1 alpha:1.0];
+}
+
+- (void)cwController:(UIViewController *)controller didSelectedImageArrayWithThumbnailImageArray:(NSArray *)thumbnailArray withAssetArray:(NSArray <CWIPAssetModel *> *)array{
+    CWIPAssetModel * asset = array.firstObject;
+    
+    if (asset) {
+         UIImageView  * imageView1 = (UIImageView *) [self.view viewWithTag:100];
+        CGFloat scale = [UIScreen mainScreen].scale;
+        [CWImageManager thumbnailImageWithAsset:asset withImageSize:CGSizeMake(CGRectGetWidth(imageView1.frame) *scale, CGRectGetHeight(imageView1.frame)*scale) withCompleteBlock:^(UIImage *image, NSDictionary *info) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                imageView1.image = image;
+            });
+        }];
+    }
 }
 
 @end
