@@ -116,7 +116,7 @@
     self.bottomView.imageOperateViewSendActionBlock = ^(UIButton *sender) {
         spstrongify(self);
         CWImagePickerViewController * picker = ((CWImagePickerViewController *)self.navigationController);
-        if ([picker.cwDelegate respondsToSelector:@selector(didSelectedImageArrayWithThumbnailImageArray:withAssetArray:)]) {
+        if ([picker.cwDelegate respondsToSelector:@selector(cwController:didSelectedImageArrayWithThumbnailImageArray:withAssetArray:)]) {
             NSMutableArray * mutArr = @[].mutableCopy;
             NSMutableArray * mutArr2 = @[].mutableCopy;
             for (CWIPAssetModel * model in self.selectedAssetModelArray) {
@@ -126,7 +126,7 @@
                     [mutArr2 addObject:model];
                 }
             }
-            [picker.cwDelegate didSelectedImageArrayWithThumbnailImageArray:mutArr withAssetArray:mutArr2];
+            [picker.cwDelegate cwController:self didSelectedImageArrayWithThumbnailImageArray:mutArr withAssetArray:mutArr2];
         }
         [self.navigationController dismissViewControllerAnimated:YES completion:nil];  
     };
@@ -292,8 +292,8 @@ static NSString * reuseId = @"CWIPAllImageViewCollectionViewCell";
 #pragma mark - CWCropImageViewControllerDelegate
 - (void)imageCropper:(CWCropImageViewController *)cropperViewController didFinished:(UIImage *)editedImage{
     CWImagePickerViewController * picker = (CWImagePickerViewController *)self.navigationController;
-    if ([picker.cwDelegate respondsToSelector:@selector(didSelectedCropImageWithImage:)]) {
-        [picker.cwDelegate didSelectedCropImageWithImage:editedImage];
+    if ([picker.cwDelegate respondsToSelector:@selector(cwController:didSelectedCropImageWithImage:)]) {
+        [picker.cwDelegate cwController:cropperViewController didSelectedCropImageWithImage:editedImage];
     }
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }

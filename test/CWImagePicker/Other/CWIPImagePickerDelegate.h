@@ -16,21 +16,21 @@
  
  @param image 图片
  */
-- (void)didSelectedCropImageWithImage:(UIImage *)image;
+- (void)cwController:(UIViewController *)controller didSelectedCropImageWithImage:(UIImage *)image;
 
 /**
  选取单张图片
 
  @param image  image
  */
-- (void)didSelectedImageWithImage:(UIImage *)image;
+- (void)cwController:(UIViewController *)controller didSelectedImageWithImage:(UIImage *)image;
 /**
  选择多张图片
 
  @param thumbnailArray 假如是单选，则数组中只有一个
  @param array CWIPAssetModel对象，与thumbnailArray对应
  */
-- (void)didSelectedImageArrayWithThumbnailImageArray:(NSArray *)thumbnailArray withAssetArray:(NSArray <CWIPAssetModel *> *)array;
+- (void)cwController:(UIViewController *)controller didSelectedImageArrayWithThumbnailImageArray:(NSArray *)thumbnailArray withAssetArray:(NSArray <CWIPAssetModel *> *)array;
 
 /**
  设置导航栏

@@ -223,7 +223,7 @@ const static int kBigImageCollectionViewTag = 999;
     self.bottomView.imageOperateViewSendActionBlock = ^(UIButton *sender) {
         spstrongify(self);
         CWImagePickerViewController * picker = ((CWImagePickerViewController *)self.navigationController);
-        if ([picker.cwDelegate respondsToSelector:@selector(didSelectedImageArrayWithThumbnailImageArray:withAssetArray:)]) {
+        if ([picker.cwDelegate respondsToSelector:@selector(cwController: didSelectedImageArrayWithThumbnailImageArray:withAssetArray:)]) {
             NSMutableArray * mutArr = @[].mutableCopy;
             NSMutableArray * mutArr2 =@[].mutableCopy;
             for (CWIPAssetModel * model in self.selectedAssetArray) {
@@ -233,7 +233,7 @@ const static int kBigImageCollectionViewTag = 999;
                     [mutArr2 addObject:model];
                 }
             }
-            [picker.cwDelegate didSelectedImageArrayWithThumbnailImageArray:mutArr withAssetArray:mutArr2];
+            [picker.cwDelegate cwController:self didSelectedImageArrayWithThumbnailImageArray:mutArr withAssetArray:mutArr2];
         }
         [self.navigationController dismissViewControllerAnimated:YES completion:nil];
         

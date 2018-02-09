@@ -66,7 +66,19 @@
         [self presentViewController:picker2 animated:YES completion:nil];
         
     }];
-    UIAlertAction * action3 = [UIAlertAction actionWithTitle:@"选择自定义相册" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction * action3 = [UIAlertAction actionWithTitle:@"选择单张图片并裁剪" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        CWIPImagePickerOption * option = [[CWIPImagePickerOption alloc]init];
+        //可裁剪
+        option.needCrop = YES;
+        option.sourceType = UIImagePickerControllerSourceTypeAlbum;
+        CWImagePickerViewController * picker = [[CWImagePickerViewController alloc]initWithOption: option];
+        //设置代理
+        picker.cwDelegate = self;
+        //弹出
+        [self presentViewController:picker animated:YES completion:nil];
+        
+    }];
+    UIAlertAction * action31 = [UIAlertAction actionWithTitle:@"选择单张图片" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         CWIPImagePickerOption * option = [[CWIPImagePickerOption alloc]init];
         //可裁剪
         option.needCrop = YES;
@@ -98,6 +110,7 @@
     [ac addAction:action1];
     [ac addAction:action2];
     [ac addAction:action3];
+    [ac addAction:action31];
     [ac addAction:action4];
      [ac addAction:action5];
     
@@ -109,7 +122,7 @@
 }
 
 #pragma mark - CWIPImagePickerDelegate
-- (void)didSelectedCropImageWithImage:(UIImage *)image;{
+- (void)cwController:(UIViewController *)controller didSelectedCropImageWithImage:(UIImage *)image;{
     UIImageView  * imageView = (UIImageView *) [self.view viewWithTag:100];
     imageView.image = image;
 }

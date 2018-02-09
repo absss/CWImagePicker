@@ -36,8 +36,9 @@
     NSInteger count = albumArr.count;
     _count = count;
     NSString * title = albumModel.assetCollection.localizedTitle;
+    CGFloat scale = [UIScreen mainScreen].scale;
     if (count>0) {
-            [CWImageManager thumbnailImageWithAsset:albumArr.lastObject withImageSize:CGSizeMake(CGRectGetHeight(self.frame), CGRectGetHeight(self.frame)) withCompleteBlock:^(UIImage *image, NSDictionary *info) {
+            [CWImageManager thumbnailImageWithAsset:albumArr.lastObject withImageSize:CGSizeMake(CGRectGetHeight(self.frame)*scale, CGRectGetHeight(self.frame)*scale) withCompleteBlock:^(UIImage *image, NSDictionary *info) {
                 self.thumbnailImageView.image = image;
             }];
 
@@ -66,6 +67,8 @@
     if (!_thumbnailImageView) {
         _thumbnailImageView = [[UIImageView alloc]init];
         _thumbnailImageView.backgroundColor = [UIColor whiteColor];
+        _thumbnailImageView.contentMode = UIViewContentModeScaleAspectFill;
+        _thumbnailImageView.clipsToBounds = YES;
         
     }
     return _thumbnailImageView;

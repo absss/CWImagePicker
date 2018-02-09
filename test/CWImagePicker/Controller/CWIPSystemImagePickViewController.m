@@ -84,8 +84,8 @@
         }
        
     }else{
-        if ([self.cwDelegate respondsToSelector:@selector(didSelectedImageWithImage:)]) {
-            [self.cwDelegate didSelectedImageWithImage:portraitImg];
+        if ([self.cwDelegate respondsToSelector:@selector(cwController:didSelectedImageWithImage:)]) {
+            [self.cwDelegate cwController:self didSelectedImageWithImage:portraitImg];
         }
         [self dismissViewControllerAnimated:YES completion:nil];
     }
@@ -97,8 +97,8 @@
 
 #pragma mark -  CWCropImageViewControllerDelegate
 - (void)imageCropper:(CWCropImageViewController *)cropperViewController didFinished:(UIImage *)editedImage{
-    if ([self.cwDelegate respondsToSelector:@selector(didSelectedCropImageWithImage:)]) {
-        [self.cwDelegate didSelectedCropImageWithImage:editedImage];
+    if ([self.cwDelegate respondsToSelector:@selector(cwController: didSelectedCropImageWithImage:)]) {
+        [self.cwDelegate cwController:cropperViewController didSelectedCropImageWithImage:editedImage];
          [self dismissViewControllerAnimated:YES completion:nil];
         
     }

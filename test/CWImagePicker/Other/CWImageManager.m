@@ -186,6 +186,8 @@
 
 + (void)thumbnailImageWithAsset:(CWIPAssetModel *)assetModel withImageSize:(CGSize)size withCompleteBlock:(CWGetImageFromAssetResultBlock)completion{
     PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
+    CGFloat scale = [UIScreen mainScreen].scale;
+    size = CGSizeMake(size.width*scale, size.height*scale);
     
     option.resizeMode = PHImageRequestOptionsResizeModeFast;
     [[PHImageManager defaultManager] requestImageForAsset:assetModel.asset targetSize:size contentMode:PHImageContentModeAspectFill options:option resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
