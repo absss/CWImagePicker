@@ -37,6 +37,21 @@ typedef void(^CWGetImageFromAssetProgressBlock)(double progress, NSError *error,
 + (void)clearCache;
 
 /**
+ 请求访问相册的权限，系统会弹框，
+ 
+ @param block 完成之后的回调
+ */
++ (void)accessToUsePhotoLibraryWithCompleteBlock:(void(^)(BOOL canUse))block;
+
+
+/**
+ 请求访问相机的权限，系统会弹框
+ 
+ @param block 完成之后的回调
+ */
++ (void)accessToCameraWithCompleteBlock:(void(^)(BOOL canUse))block;
+
+/**
  是否有权限使用相册
  
  @return 返回结果

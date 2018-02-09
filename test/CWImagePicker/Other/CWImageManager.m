@@ -144,6 +144,34 @@
 
 }
 
++ (void)accessToUsePhotoLibraryWithCompleteBlock:(void(^)(BOOL canUse))block{
+    [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+        if (status == PHAuthorizationStatusAuthorized) {
+            if (block) {
+                block(YES);
+            }
+        }else{
+            if (block) {
+                block(NO);
+            }
+        }
+    }];
+}
+
++ (void)accessToCameraWithCompleteBlock:(void(^)(BOOL canUse))block{
+    [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
+        if (granted) {
+            if (block) {
+                block(YES);
+            }
+        }else{
+            if (block) {
+                block(NO);
+            }
+        }
+    }];
+}
+
 + (BOOL)isCanUsePhotos {
         PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatus];
         if (status == PHAuthorizationStatusRestricted ||
