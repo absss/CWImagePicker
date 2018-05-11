@@ -9,6 +9,7 @@
 大图浏览中，只有在大图被浏览的时候，才将大图载入内存中，一张照片基本上都是几百万像素，是一张缩略图的一万倍，不显示的时候，一定要将它销毁。
 
 如何使用：
+"""
 
 1 导入文件，遵循协议
 
@@ -42,23 +43,21 @@ picker.cwDelegate = self;
 
 [self presentViewController:picker2 animated:YES completion:nil];
 
+"""
+
 3 实现协议方法
 
 .....
 
 注意事项：
 
-1 只支持iOS8以上系统
+1. 只支持iOS8以上系统
+2. 拍照需要真机
+3. 在info.plist文件中确保存在以下keys:
 
-2 拍照需要真机
-
-3 在info.plist文件中确保存在以下keys:
-
-Privacy - Camera Usage Description   //使用相机
-
-Privacy - Photo Library Usage Description //使用相册
-
-Localized resources can be mixed  //确保显示当地语言
+- Privacy - Camera Usage Description   //使用相机
+- Privacy - Photo Library Usage Description //使用相册
+- Localized resources can be mixed  //确保显示当地语言
 
 效果图预览：
 
