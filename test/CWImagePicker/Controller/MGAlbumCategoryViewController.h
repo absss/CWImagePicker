@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CWImageMarco.h"
-#import "CWImageManager.h"
+#import "MGImageMarco.h"
+#import "MGImagePickerHandler.h"
 
 @interface MGAlbumCategoryViewController : UIViewController
-@property(nonatomic,copy)NSArray <CWAlbumModel *> * albumArray;
-- (void )loadAlbumDataWithCompleteBlock:(void(^)(NSArray *array))complete;
+@property(nonatomic,copy)NSArray <MGAlbumModel *> * albumArray;
+- (void )loadAlbumDatacompletion:(void(^)(NSArray *array))complete;
 @end
