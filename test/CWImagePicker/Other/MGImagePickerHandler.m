@@ -64,16 +64,16 @@
         PHAssetCollectionSubtype type = (PHAssetCollectionSubtype )[assetSubtypes[i] integerValue];
         PHFetchResult<PHAssetCollection *> *cameraRollCollections = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:type options:nil];
         for (PHAssetCollection * album in cameraRollCollections) {
-            NSInteger estimatedCount = album.estimatedAssetCount;
-            if (estimatedCount>0||estimatedCount == NSNotFound) {
-                MGAlbumModel * model = [MGAlbumModel new];
-                model.assetCollection = album;
-                
-                if (album.assetCollectionSubtype == PHAssetCollectionSubtypeSmartAlbumUserLibrary) {
-                    [albums insertObject:model atIndex:0];
-                }else{
-                    [albums addObject:model];
-                }
+            MGAlbumModel * model = [MGAlbumModel new];
+            model.assetCollection = album;
+            NSArray * albumArr = [MGImagePickerHandler assetsWithAlbum:model];
+            if (albumArr.count == 0) {
+                continue;
+            }
+            if (album.assetCollectionSubtype == PHAssetCollectionSubtypeSmartAlbumUserLibrary) {
+                [albums insertObject:model atIndex:0];
+            }else{
+                [albums addObject:model];
             }
         }
     }
@@ -81,12 +81,15 @@
     //用户自定义的相册
     PHFetchResult<PHAssetCollection *> *assetCollections = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
     for (PHAssetCollection * collection in assetCollections) {
-        NSInteger estimatedCount = collection.estimatedAssetCount;
-        if (estimatedCount>0||estimatedCount == NSNotFound) {
-            MGAlbumModel * album = [MGAlbumModel alloc];
-            album.assetCollection = collection;
-            [albums addObject:album];
+        MGAlbumModel * model = [MGAlbumModel new];
+        model.assetCollection = collection;
+        NSArray * albumArr = [MGImagePickerHandler assetsWithAlbum:model];
+        if (albumArr.count == 0) {
+            continue;
         }
+        MGAlbumModel * album = [MGAlbumModel alloc];
+        album.assetCollection = collection;
+        [albums addObject:album];
     }
     if (completion) {
         completion((NSArray *)albums);

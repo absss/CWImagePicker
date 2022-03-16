@@ -15,13 +15,13 @@
 #import "MGImagePickerViewController.h"
 #import "MGAlbumViewController.h"
 
-@interface CWSmallImageCollectionViewCell : UICollectionViewCell
+@interface MGSmallImageCollectionViewCell : UICollectionViewCell
 @property(nonatomic,strong)UIImageView * imageView;
 @property(nonatomic,strong)MGAssetModel * imageAsset;
 
 
 @end
-@implementation CWSmallImageCollectionViewCell
+@implementation MGSmallImageCollectionViewCell
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -70,7 +70,7 @@
 @implementation MGImageScanController
 
 static NSString * reuseId = @"MGImageScanCollectionViewCell";
-static NSString * reuseId2 = @"CWSmallImageCollectionViewCell";
+static NSString * reuseId2 = @"MGSmallImageCollectionViewCell";
 const static int kSmallImageCollectionViewTag = 99;
 const static int kBigImageCollectionViewTag = 999;
 
@@ -121,7 +121,7 @@ const static int kBigImageCollectionViewTag = 999;
 }
 
 
-- (void)setDisplayIndexPath:(NSIndexPath *)displayIndexPath{
+- (void)setDisplayIndexPath:(NSIndexPath *)displayIndexPath {
     _displayIndexPath = displayIndexPath;
     MGAssetModel * selectedModel = self.assetModelArray[displayIndexPath.row];
     selectedModel.displayed = YES;
@@ -132,7 +132,6 @@ const static int kBigImageCollectionViewTag = 999;
             model.displayed = NO;
         }
     }
-    _currentPage = self.displayIndexPath.row;
 }
 
 
@@ -186,7 +185,7 @@ const static int kBigImageCollectionViewTag = 999;
             _smallCollectionView.backgroundColor = MGDarkColor;
             _smallCollectionView.delegate = self;
             _smallCollectionView.dataSource = self;
-            [_smallCollectionView registerClass:[CWSmallImageCollectionViewCell class] forCellWithReuseIdentifier:reuseId2];
+            [_smallCollectionView registerClass:[MGSmallImageCollectionViewCell class] forCellWithReuseIdentifier:reuseId2];
             _smallCollectionView.alwaysBounceVertical = NO;
             _smallCollectionView.alwaysBounceHorizontal = NO;
             _smallCollectionView.bounces = NO;
@@ -202,22 +201,13 @@ const static int kBigImageCollectionViewTag = 999;
 }
 
 #pragma mark - private method
-- (void)refreshSelectedCount{
+- (void)refreshUI{
     _bottomView.selectedCount = self.selectedAssetArray.count;
     if (self.selectedAssetArray.count < 1) {
         self.smallCollectionView.hidden = YES;
     }else{
         self.smallCollectionView.hidden = NO;
     }
-    NSMutableArray * indexPaths = @[].mutableCopy;
-    int i = 0;
-    for (MGAssetModel * assetModel in self.selectedAssetArray) {
-        assetModel.selectedIndex = i+1;
-        NSIndexPath * indexPath = [NSIndexPath indexPathForRow:assetModel.index inSection:0];
-        [indexPaths addObject:indexPath];
-        i++;
-    }
-    [self.collectionView reloadItemsAtIndexPaths:indexPaths];
     [self refreshRightNavItemWithIdx:self.assetModelArray[self.displayIndexPath.row].index];
 
 }
@@ -246,8 +236,7 @@ const static int kBigImageCollectionViewTag = 999;
 
 - (void)setupRightNavigationBar{
     MGImageSelectButton * button = [[MGImageSelectButton alloc]initWithFrame:CGRectMake(0, 0, 40, 40)];
-    button.showCount = [MGImagePickerHandler shareIntance].option.isMultiPage;
-    button.count = 1;
+    button.showCount = NO;
     __weak typeof(self) weakSelf = self;
     button.showCountButtonActionBlock = ^(MGImageSelectButton *sender) {
         [weakSelf selectAction:sender];
@@ -273,7 +262,7 @@ const static int kBigImageCollectionViewTag = 999;
         cell.delegate = self;
         return cell;
     }else{
-        CWSmallImageCollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseId2 forIndexPath:indexPath];
+        MGSmallImageCollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseId2 forIndexPath:indexPath];
         cell.imageAsset = self.selectedAssetArray[indexPath.row];
         return cell;
     }
@@ -317,7 +306,6 @@ const static int kBigImageCollectionViewTag = 999;
         NSInteger idx = scrollView.contentOffset.x/CGRectGetWidth(self.view.frame);
         NSIndexPath * indexPath = [NSIndexPath indexPathForRow:idx inSection:0];
         self.displayIndexPath = indexPath;
-//        NSLog(@"当期页:%@,",indexPath);
         MGAssetModel * model = self.assetModelArray[idx];
         [self refreshRightNavItemWithIdx:idx];
         if (model.displayed) {
@@ -325,8 +313,6 @@ const static int kBigImageCollectionViewTag = 999;
         }
     }
 }
-
-
 
 #pragma mark - MGImageScanCollectionViewCellDelegate
 - (BOOL)didSingleTapImageView{
@@ -336,7 +322,6 @@ const static int kBigImageCollectionViewTag = 999;
 
 
 - (BOOL)didDoubleTapImageView{
-    
      self.enlarger = !self.isEnlager;
     return self.enlarger;
 }
@@ -352,7 +337,7 @@ const static int kBigImageCollectionViewTag = 999;
 
 
 #pragma mark - target selector
-- (void)selectAction:(UIButton *)sender{
+- (void)selectAction:(UIButton *)sender {
    
     if (self.selectedAssetArray.count >= [MGImagePickerHandler shareIntance].option.maxAllowCount &&  sender.selected) {
         NSString * str = [NSString stringWithFormat:MGLocalString(@"CWIPStr_Alert_maxSelectCount"), [MGImagePickerHandler shareIntance].option.maxAllowCount];
@@ -376,33 +361,26 @@ const static int kBigImageCollectionViewTag = 999;
         }
         [self.smallCollectionView reloadData];
         
-    }else{
+    } else{
         if (sender.selected) {
             model.selected = YES;
             for (MGAssetModel * model in self.selectedAssetArray) {
                 model.selected = NO;
             }
-            [self refreshSelectedCount];
             [self.selectedAssetArray removeAllObjects];
             [self.selectedAssetArray addObject:model];
+            [self refreshUI];
         }else{
             model.selected = NO;
             [self.selectedAssetArray removeObject:model];
         }
         
     }
-  
-    [self refreshSelectedCount];
+    [self refreshUI];
 }
 
 - (void)dealloc{
     NSLog(@"%s",__func__);
-}
-
-- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated{
-    if ([viewController isKindOfClass:NSClassFromString(@"MGAlbumViewController")]) {
-        [((MGAlbumViewController *)viewController) refreshCollectionView];
-    }
 }
 
 @end

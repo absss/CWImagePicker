@@ -1,22 +1,24 @@
 //
-//  MGAlbumCategoryViewController.m
+//  MGAlbumCategoryView.m
 //  test
 //
-//  Created by hehaichi on 2017/11/28.
-//  Copyright © 2017年 app. All rights reserved.
+//  Created by hehaichi on 2022/3/15.
+//  Copyright © 2022 app. All rights reserved.
 //
 
-#import "MGAlbumCategoryViewController.h"
-#import "MGAlbumViewController.h"
+#import "MGAlbumCategoryView.h"
+#import "MGAlbumModel.h"
+#import "MGImagePickerHandler.h"
 
-@interface CWAlbumCategoryTableViewCell:UITableViewCell
+
+@interface MGAlbumCategoryTableViewCell:UITableViewCell
 @property(nonatomic,strong)UIImageView * thumbnailImageView;
 @property(nonatomic,strong)UILabel * albumTitleLabel;
 @property(nonatomic,strong)UIView * sepLine;
 @property(nonatomic,strong)MGAlbumModel * albumModel;
 @property(nonatomic,assign)NSInteger count;
 @end
-@implementation CWAlbumCategoryTableViewCell
+@implementation MGAlbumCategoryTableViewCell
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     if(self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]){
         _count = 0;
@@ -95,60 +97,42 @@
 }
 @end
 
-@interface MGAlbumCategoryViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface MGAlbumCategoryView()<UITableViewDataSource,UITableViewDelegate>
 @property(nonatomic,strong)UITableView * tableView;
 @end
 
-@implementation MGAlbumCategoryViewController
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    self.title = MGLocalString(@"CWIPStr_Phonos");
-     [self.view addSubview:self.tableView];
-    self.view.backgroundColor = [UIColor whiteColor];
-    
-    //if nil ,load data
-    if (!(self.albumArray.count > 0)) {
-        [self loadAlbumDatacompletion:^(NSArray *array) {
-            self.albumArray = array;
-            [self.tableView reloadData];
-        }];
+@implementation MGAlbumCategoryView
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self addSubview:self.tableView];
     }
+    return self;
 }
-
-#pragma mark - private method
-- (void)loadAlbumDatacompletion:(void (^)(NSArray *))complete{
-    [MGImagePickerHandler getAllAlbums:^(NSArray<MGAlbumModel *> *array) {
-        if (complete) {
-            complete(array);
-        }
-    }];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    MGAlbumViewController * vc = [MGAlbumViewController new];
-    
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
-static NSString * reuseId = @"CWAlbumCategoryTableViewCell";
+static NSString * reuseId = @"MGAlbumCategoryTableViewCell";
 - (UITableView *)tableView{
     if (!_tableView) {
-        _tableView = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStyleGrouped];
+        _tableView = [[UITableView alloc]initWithFrame:self.frame style:UITableViewStyleGrouped];
 
         _tableView.dataSource = self;
         _tableView.delegate = self;
         _tableView.estimatedSectionHeaderHeight = 0.01;
         _tableView.estimatedSectionFooterHeight = 0.01;
-        [_tableView registerClass:[CWAlbumCategoryTableViewCell class] forCellReuseIdentifier:reuseId];
+        [_tableView registerClass:[MGAlbumCategoryTableViewCell class] forCellReuseIdentifier:reuseId];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     }
     return _tableView;
+}
+
+- (void)setFrame:(CGRect)frame {
+    [super setFrame:frame];
+    self.tableView.frame = CGRectMake(0, 0, CGRectGetWidth(frame), CGRectGetHeight(frame));
+}
+
+- (void)setAlbumArray:(NSArray *)albumArray {
+    _albumArray = albumArray;
+    [self.tableView reloadData];
 }
 
 #pragma mark - UITableViewDelegate,UITableViewDataSource
@@ -157,9 +141,9 @@ static NSString * reuseId = @"CWAlbumCategoryTableViewCell";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    CWAlbumCategoryTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:reuseId];
+    MGAlbumCategoryTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:reuseId];
     if (!cell) {
-        cell= [[CWAlbumCategoryTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseId];
+        cell= [[MGAlbumCategoryTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseId];
     }
     cell.albumModel = self.albumArray[indexPath.row];
     return cell;
@@ -182,10 +166,13 @@ static NSString * reuseId = @"CWAlbumCategoryTableViewCell";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    MGAlbumViewController * vc2 = [MGAlbumViewController new];
-    vc2.albumModel = self.albumArray[indexPath.row];
-    [self.navigationController pushViewController:vc2 animated:YES];
+    if (indexPath.row < self.albumArray.count) {
+        if (self.didSelectAlbumBlock) {
+            self.didSelectAlbumBlock(self.albumArray[indexPath.row]);
+        }
+    }
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
 @end
+

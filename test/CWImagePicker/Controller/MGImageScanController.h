@@ -24,5 +24,8 @@
  */
 @property(nonatomic,strong)NSMutableArray<MGAssetModel *> * selectedAssetArray;
 
-
+/**
+ 选中的图片发生变化
+ */
+@property (nonatomic, copy) void(^selectedAssetChange)(NSArray *assetModelArray);
 @end

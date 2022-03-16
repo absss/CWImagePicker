@@ -8,8 +8,9 @@
 
 #import "MGImagePickerViewController.h"
 #import "MGAlbumViewController.h"
-#import "MGAlbumCategoryViewController.h"
 #import "UIViewController+CWAlertView.h"
+#import "MGImagePickerHandler.h"
+
 @interface MGImagePickerViewController ()<UINavigationBarDelegate,UINavigationControllerDelegate>
 
 @end
@@ -31,7 +32,6 @@
         [self setCancelButton:vc2];
         [self setupNavigationBar];
         [self pushViewController:vc2 animated:YES];
-        [vc2 loadAllImageData];
         self.delegate = self;
 }
 
@@ -48,7 +48,7 @@
 
 - (void)setupNavigationBar{
     //设置背景颜色
-    [self.navigationBar setBackgroundImage:[MGImagePickerTool imageWithColor:MGDarkColor size:CGSizeMake(CGRectGetWidth(self.view.frame), CGRectGetMaxY(self.navigationBar.frame)) alpha:0.85] forBarMetrics:UIBarMetricsDefault];
+    [self.navigationBar setBackgroundImage:[MGImagePickerTool imageWithColor:MGDarkColor size:CGSizeMake(CGRectGetWidth(self.view.frame), CGRectGetMaxY(self.navigationBar.frame)) alpha:1] forBarMetrics:UIBarMetricsDefault];
     
     //设置导航栏返回按钮的颜色
     self.navigationBar.tintColor = [UIColor whiteColor];

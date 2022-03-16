@@ -19,8 +19,7 @@
 
 
 @interface MGAlbumViewController : UIViewController
-@property(nonatomic,strong)MGAlbumModel * albumModel;
+@property(nonatomic,strong)NSArray *albumModelArray; // 可供选择的相册集
+@property(nonatomic,strong)MGAlbumModel * currentAlbumModel; // 当前相册集
 @property(nonatomic,strong)NSMutableArray * selectedAssetModelArray;
-- (void)loadAllImageData;
-- (void)refreshCollectionView;
 @end

@@ -23,14 +23,12 @@ typedef void(^MGImageFromAssetProgressBlock)(double progress, NSError *error, BO
 
 @interface MGImagePickerHandler : NSObject
 
-@property(nonatomic,strong)MGImagePickerOption * option;
-
-/**
- 图片缓存
- */
-@property(nonatomic,strong)CWIPCache * cache;
-
+@property(nonatomic,strong) MGImagePickerOption * option;
+@property(nonatomic,strong) CWIPCache * cache;
+@property(nonatomic,strong) NSArray<MGAssetModel *> * assetModelArray;
+@property(nonatomic,strong) NSMutableArray<MGAssetModel *> * selectedAssetArray;
 + (instancetype)shareIntance;
+
 
 /**
 清空缓存

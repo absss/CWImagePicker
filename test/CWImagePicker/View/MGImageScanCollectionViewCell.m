@@ -126,7 +126,7 @@
     return targetScale;
 }
 
-- (CGRect)imageViewRectWithImageLoad{
+- (CGSize)resizeImage{
     CGFloat IW = self.imageView.image.size.width;
     CGFloat IH = self.imageView.image.size.height;
     CGFloat CW = CGRectGetWidth(self.contentView.frame);
@@ -139,21 +139,21 @@
         H = CH;
         W = CH * IW / IH;
     }
-    return CGRectMake(0, self.contentView.center.y-H/2,W,H);
+    return CGSizeMake(W, H);
 }
 
 - (void)resizeContainerView{
-    CGRect rect  = [self imageViewRectWithImageLoad];
+    CGSize imgSize = [self resizeImage];
+    CGRect rect  = CGRectMake(0, 0, imgSize.width, imgSize.height);
     self.imageContainerView.frame = rect;
     self.imageView.frame = self.imageContainerView.bounds;
-    [self refreshViewFrame];
+//    [self refreshViewFrame];
 }
 
 - (void)refreshViewFrame{
     CGFloat offsetX = (CGRectGetWidth(_scrollView.frame) > _scrollView.contentSize.width) ? ((CGRectGetWidth(_scrollView.frame) - _scrollView.contentSize.width) * 0.5) : 0.0;
     CGFloat offsetY = (CGRectGetHeight(_scrollView.frame) > _scrollView.contentSize.height) ? ((CGRectGetHeight(_scrollView.frame) - _scrollView.contentSize.height) * 0.5) : 0.0;
     self.imageContainerView.center = CGPointMake(_scrollView.contentSize.width * 0.5 + offsetX, _scrollView.contentSize.height * 0.5 + offsetY);
-    
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -163,6 +163,15 @@
         [self.delegate imageScanCellScrollViewDidZoom:scrollView withCell:self];
     }
 }
+
+//- (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale {
+//    [self refreshViewFrame];
+//}
+//
+//- (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(nullable UIView *)view {
+//    [self refreshViewFrame];
+//}
+
 
 - (nullable UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView{
     return self.imageContainerView;
