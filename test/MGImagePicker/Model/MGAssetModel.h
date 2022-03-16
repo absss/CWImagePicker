@@ -22,12 +22,12 @@
 @property(nonatomic,assign,getter=isSelected)BOOL selected;
 
 /**
- 在所有图片排序中的index
+ 在所在图册中的排序
  */
 @property(nonatomic,assign)NSInteger index;
 
 /**
- 被选中的所有图片中的index
+ 在被选中数组中排序
  */
 @property(nonatomic,assign)NSInteger selectedIndex;
 

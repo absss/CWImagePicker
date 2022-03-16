@@ -34,13 +34,12 @@
 }
 - (void)setAlbumModel:(MGAlbumModel *)albumModel{
     _albumModel = albumModel;
-    NSArray * albumArr = [MGImagePickerHandler assetsWithAlbum:albumModel];
-    NSInteger count = albumArr.count;
+    NSInteger count = albumModel.assetModelArray.count;
     _count = count;
     NSString * title = albumModel.assetCollection.localizedTitle;
     CGFloat scale = [UIScreen mainScreen].scale;
     if (count>0) {
-            [MGImagePickerHandler thumbnailImageWithAsset:albumArr.lastObject size:CGSizeMake(CGRectGetHeight(self.frame)*scale, CGRectGetHeight(self.frame)*scale) completion:^(UIImage *image, NSDictionary *info) {
+            [MGImagePickerHandler thumbnailImageWithAsset:albumModel.assetModelArray.lastObject size:CGSizeMake(CGRectGetHeight(self.frame)*scale, CGRectGetHeight(self.frame)*scale) completion:^(UIImage *image, NSDictionary *info) {
                 self.thumbnailImageView.image = image;
             }];
 
@@ -114,30 +113,28 @@ static NSString * reuseId = @"MGAlbumCategoryTableViewCell";
 - (UITableView *)tableView{
     if (!_tableView) {
         _tableView = [[UITableView alloc]initWithFrame:self.frame style:UITableViewStyleGrouped];
-
         _tableView.dataSource = self;
         _tableView.delegate = self;
         _tableView.estimatedSectionHeaderHeight = 0.01;
         _tableView.estimatedSectionFooterHeight = 0.01;
         [_tableView registerClass:[MGAlbumCategoryTableViewCell class] forCellReuseIdentifier:reuseId];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _tableView.alwaysBounceVertical = NO;
+        _tableView.alwaysBounceHorizontal = NO;
     }
     return _tableView;
 }
 
-- (void)setFrame:(CGRect)frame {
-    [super setFrame:frame];
-    self.tableView.frame = CGRectMake(0, 0, CGRectGetWidth(frame), CGRectGetHeight(frame));
-}
 
-- (void)setAlbumArray:(NSArray *)albumArray {
-    _albumArray = albumArray;
+- (void) refreshUI {
+    NSArray *albumArray = [MGImagePickerHandler shareIntance].albumModelArray;
+    self.tableView.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame), 60*albumArray.count);
     [self.tableView reloadData];
 }
 
 #pragma mark - UITableViewDelegate,UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.albumArray.count;
+    return [MGImagePickerHandler shareIntance].albumModelArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -145,7 +142,7 @@ static NSString * reuseId = @"MGAlbumCategoryTableViewCell";
     if (!cell) {
         cell= [[MGAlbumCategoryTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseId];
     }
-    cell.albumModel = self.albumArray[indexPath.row];
+    cell.albumModel = [MGImagePickerHandler shareIntance].albumModelArray[indexPath.row];
     return cell;
 }
 
@@ -166,9 +163,9 @@ static NSString * reuseId = @"MGAlbumCategoryTableViewCell";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row < self.albumArray.count) {
+    if (indexPath.row < [MGImagePickerHandler shareIntance].albumModelArray.count) {
         if (self.didSelectAlbumBlock) {
-            self.didSelectAlbumBlock(self.albumArray[indexPath.row]);
+            self.didSelectAlbumBlock([MGImagePickerHandler shareIntance].albumModelArray[indexPath.row]);
         }
     }
     [tableView deselectRowAtIndexPath:indexPath animated:NO];

@@ -26,6 +26,7 @@
 #define MGMaxScreenWidth MAX([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)
 #define MGMinScreenWidth MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)
 #define MG_IS_IPHONEX ((MGMaxScreenWidth>=812)?YES:NO)
+#define MG_NAVIGATION_HEIGHT (MG_IS_IPHONEX ? 88 : 64)
 
 #define MGLocalString(keyName) (NSLocalizedStringFromTable(keyName,@"CWIPLocalizable",nil))
 

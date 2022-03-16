@@ -25,8 +25,19 @@ typedef void(^MGImageFromAssetProgressBlock)(double progress, NSError *error, BO
 
 @property(nonatomic,strong) MGImagePickerOption * option;
 @property(nonatomic,strong) CWIPCache * cache;
-@property(nonatomic,strong) NSArray<MGAssetModel *> * assetModelArray;
-@property(nonatomic,strong) NSMutableArray<MGAssetModel *> * selectedAssetArray;
+@property(nonatomic,strong) NSArray <MGAlbumModel *>*albumModelArray; // 可供选择的相册集
+@property(nonatomic,strong) MGAlbumModel * currentAlbumModel; //当前显示的相册
+
+
+/// 加载所有的相册信息
+- (void)loadData;
+
+/// 选中某个图片
+/// @param assetModel 被选中的model
+/// @param albumModel 被选中的图册
+/// @param selected 状态
+- (void)selectAssetModel:(MGAssetModel *)assetModel albumModel:(MGAlbumModel *)albumModel selected:(BOOL) selected;
+
 + (instancetype)shareIntance;
 
 
@@ -87,19 +98,20 @@ typedef void(^MGImageFromAssetProgressBlock)(double progress, NSError *error, BO
 + (BOOL) isFrontCameraAvailable;
 
 /**
- 获取所有的相册组
+ 加载数据
 
- @param completion 完成之后的结果回调
+ @param
  */
-+ (void)getAllAlbums:(MGAllAlbumsBlock)completion;
-
++ (void)loadData;
 
 /**
- 从相册中获取所有的asset和image (asset可以理解为图片的索引，通过asset可以从PHImageManager取得image对象)
+ 从相册中获取assets
 
- @param assetsBlock 从系统中取到asset数组之后的回调,
+ @param album 相册
+ @return 返回array
  */
-+ (void)getAllAssets:(MGAllAssetsBlock)assetsBlock;
+- (NSArray < MGAssetModel *> *)assetsWithAlbum:(MGAlbumModel *)album;
+
 
 /**
  通过asset对象获得缩略图对象
@@ -127,14 +139,4 @@ typedef void(^MGImageFromAssetProgressBlock)(double progress, NSError *error, BO
  @param progressHandler 过程回调,在iClouds中下载的过程
  */
 + (void)originImageWithAsset:(MGAssetModel *)assetModel completion:(MGImageFromAssetResultBlock)completion progress:(MGImageFromAssetProgressBlock)progressHandler;
-
-/**
- 从相册中获取assets
-
- @param album 相册
- @return 返回array
- */
-+ (NSArray < MGAssetModel *> *)assetsWithAlbum:(MGAlbumModel *)album;
-
-
 @end

@@ -8,12 +8,54 @@
 
 #import "MGImagePickerHandler.h"
 
+@interface MGImagePickerHandler()
+@property (nonatomic, strong) NSDictionary *assetModelDic;
+@end
+
 #define IOS9Later ([UIDevice currentDevice].systemVersion.floatValue >= 9.0f)
 #define IOS10_2Later ([UIDevice currentDevice].systemVersion.floatValue >= 10.2f)
 #define IOS10_3Later ([UIDevice currentDevice].systemVersion.floatValue >= 10.3f)
 #define IOS11Later ([UIDevice currentDevice].systemVersion.floatValue >= 11.0f)
 
 @implementation MGImagePickerHandler
+
+- (void)selectAssetModel:(MGAssetModel *)assetModel albumModel:(MGAlbumModel *)albumModel selected:(BOOL) selected {
+   
+    assetModel.selected = selected;
+    if ([MGImagePickerHandler shareIntance].option.isMultiPage) { // 多选
+        if (assetModel.selected) {//选中某张图
+            if (![MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray containsObject:assetModel]) {
+                [MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray addObject:assetModel];
+            }
+        }else{//取消选中某张图
+            if ([MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray containsObject:assetModel]) {
+                [MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray removeObject:assetModel];
+            }
+        }
+    }else{
+        //其他未选中的数据的selected都置为no//数组中其实只有一个数据，所以for循环其实跑的很快
+        for (MGAssetModel * model in MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray) {
+            model.selected = NO;
+        }
+        if (assetModel.selected) {//选中某张图
+            if (![MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray containsObject:assetModel]) {
+                [MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray removeAllObjects];
+                [MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray addObject:assetModel];
+            }
+        }else{//取消选中某张图
+            if ([MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray containsObject:assetModel]) {
+                [MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray removeObject:assetModel];
+            }
+            
+        }
+    }
+    
+    [albumModel reSort]; // 重排序
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"MGImagePickerSelectedAssetArrayChanged" object:nil];
+}
+
+
 + (instancetype)shareIntance{
     static dispatch_once_t onceToken;
     static MGImagePickerHandler * manager = nil;
@@ -35,7 +77,9 @@
     }
 }
 
-+ (void)getAllAlbums:(void(^)(NSArray <MGAlbumModel *>*array))completion{
+- (void)loadData {
+    
+    [self getAllAssets];
     
     NSMutableArray *albums = [NSMutableArray array];
     //获取相机胶卷相册
@@ -64,16 +108,17 @@
         PHAssetCollectionSubtype type = (PHAssetCollectionSubtype )[assetSubtypes[i] integerValue];
         PHFetchResult<PHAssetCollection *> *cameraRollCollections = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:type options:nil];
         for (PHAssetCollection * album in cameraRollCollections) {
-            MGAlbumModel * model = [MGAlbumModel new];
-            model.assetCollection = album;
-            NSArray * albumArr = [MGImagePickerHandler assetsWithAlbum:model];
+            MGAlbumModel * albumModel = [MGAlbumModel new];
+            albumModel.assetCollection = album;
+            NSArray * albumArr = [self assetsWithAlbum:albumModel];
+            albumModel.assetModelArray = albumArr;
             if (albumArr.count == 0) {
                 continue;
             }
             if (album.assetCollectionSubtype == PHAssetCollectionSubtypeSmartAlbumUserLibrary) {
-                [albums insertObject:model atIndex:0];
+                [albums insertObject:albumModel atIndex:0];
             }else{
-                [albums addObject:model];
+                [albums addObject:albumModel];
             }
         }
     }
@@ -83,7 +128,7 @@
     for (PHAssetCollection * collection in assetCollections) {
         MGAlbumModel * model = [MGAlbumModel new];
         model.assetCollection = collection;
-        NSArray * albumArr = [MGImagePickerHandler assetsWithAlbum:model];
+        NSArray * albumArr = [self assetsWithAlbum:model];
         if (albumArr.count == 0) {
             continue;
         }
@@ -91,47 +136,39 @@
         album.assetCollection = collection;
         [albums addObject:album];
     }
-    if (completion) {
-        completion((NSArray *)albums);
-    }
+    
+    self.albumModelArray = [albums copy];
+    
 }
 
-+ (void)getAllAssets:(void(^)(NSArray <MGAssetModel *>*array))assetsBlock{
+- (void)getAllAssets {
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     // 获得所有的自定义相簿
-    NSMutableArray * allAssetArray = [NSMutableArray array];
     PHFetchResult<PHAssetCollection *> *assetCollections = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
     // 获得相机胶卷（系统相簿）
     PHAssetCollection *cameraRoll = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeSmartAlbumUserLibrary options:nil].lastObject;
     
     if (cameraRoll) {
          PHFetchResult<PHAsset *> *assets = [PHAsset fetchAssetsInAssetCollection:cameraRoll options:nil];
-        int i = 0;
         for (PHAsset *asset in assets) {
             MGAssetModel * assetModel = [MGAssetModel new];
-            assetModel.index = i;
-            assetModel.asset = asset;
-            [allAssetArray addObject:assetModel];
-            i++;
+            if (asset.localIdentifier) {
+                [dic setObject:assetModel forKey:asset.localIdentifier];
+            }
         }
     }
     // 遍历所有的自定义相簿
     for (PHAssetCollection *assetCollection in assetCollections) {
         PHFetchResult<PHAsset *> *assets = [PHAsset fetchAssetsInAssetCollection:assetCollection options:nil];
-        int i = 0;
         for (PHAsset *asset in assets) {
             MGAssetModel * assetModel = [MGAssetModel new];
-            assetModel.asset = asset;
-            assetModel.index = i;
-            [allAssetArray addObject:assetModel];
-            i++;
+            if (asset.localIdentifier) {
+                [dic setObject:assetModel forKey:asset.localIdentifier];
+            }
         }
         
     }
-    //执行assetsBlock
-    if (assetsBlock && allAssetArray.count>0) {
-        assetsBlock(allAssetArray);
-    }
-
+    self.assetModelDic = [dic copy];
 }
 
 + (void)accessToUsePhotoLibrarycompletion:(void(^)(BOOL canUse))block{
@@ -242,12 +279,15 @@
     };
 }
 
-+ (NSArray < MGAssetModel *> *)assetsWithAlbum:(MGAlbumModel *)album{
+- (NSArray < MGAssetModel *> *)assetsWithAlbum:(MGAlbumModel *)album {
     NSMutableArray * allAssetArray = [NSMutableArray array];
     PHFetchResult<PHAsset *> *assets = [PHAsset fetchAssetsInAssetCollection:album.assetCollection options:nil];
     int i = 0;
     for (PHAsset *asset in assets) {
-        MGAssetModel * assetModel = [[MGAssetModel alloc]init];
+        if (asset.localIdentifier.length == 0) {
+            continue;;
+        }
+        MGAssetModel * assetModel = [self.assetModelDic objectForKey:asset.localIdentifier];
         assetModel.asset = asset;
         assetModel.index = i;
         [allAssetArray addObject:assetModel];

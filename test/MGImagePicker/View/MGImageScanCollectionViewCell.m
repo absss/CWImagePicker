@@ -146,8 +146,9 @@
     CGSize imgSize = [self resizeImage];
     CGRect rect  = CGRectMake(0, 0, imgSize.width, imgSize.height);
     self.imageContainerView.frame = rect;
+    self.imageContainerView.center = self.contentView.center;
     self.imageView.frame = self.imageContainerView.bounds;
-//    [self refreshViewFrame];
+    [self refreshViewFrame];
 }
 
 - (void)refreshViewFrame{
@@ -164,13 +165,13 @@
     }
 }
 
-//- (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale {
-//    [self refreshViewFrame];
-//}
-//
-//- (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(nullable UIView *)view {
-//    [self refreshViewFrame];
-//}
+- (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale {
+    [self refreshViewFrame];
+}
+
+- (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(nullable UIView *)view {
+    [self refreshViewFrame];
+}
 
 
 - (nullable UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView{

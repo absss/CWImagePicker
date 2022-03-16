@@ -135,7 +135,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		9E4D61FC1FDA2C3500789DF5 /* CWImagePicker */ = {
+		9E4D61FC1FDA2C3500789DF5 /* MGImagePicker */ = {
 			isa = PBXGroup;
 			children = (
 				9E4D621E1FDA2C3500789DF5 /* View */,
@@ -144,7 +144,7 @@
 				9E4D61FD1FDA2C3500789DF5 /* Other */,
 				9E4D62271FDA2C3500789DF5 /* Resource */,
 			);
-			path = CWImagePicker;
+			path = MGImagePicker;
 			sourceTree = "<group>";
 		};
 		9E4D61FD1FDA2C3500789DF5 /* Other */ = {
@@ -242,7 +242,7 @@
 		DD117C041FC012B100D80AA4 /* test */ = {
 			isa = PBXGroup;
 			children = (
-				9E4D61FC1FDA2C3500789DF5 /* CWImagePicker */,
+				9E4D61FC1FDA2C3500789DF5 /* MGImagePicker */,
 				DD117C051FC012B100D80AA4 /* AppDelegate.h */,
 				DD117C061FC012B100D80AA4 /* AppDelegate.m */,
 				9EBD29901FC7AD22004505DF /* MainViewController.h */,

@@ -11,8 +11,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MGAlbumCategoryView : UIView
-@property(nonatomic,strong)NSArray *albumArray; // 可供选择的相册集
 @property (nonatomic, copy) void(^didSelectAlbumBlock)(MGAlbumModel *model);
+- (void) refreshUI;
 @end
 
 NS_ASSUME_NONNULL_END
