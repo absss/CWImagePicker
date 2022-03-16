@@ -22,11 +22,6 @@
 @property(nonatomic,assign,getter=isSelected)BOOL selected;
 
 /**
- 在所在图册中的排序
- */
-@property(nonatomic,assign)NSInteger index;
-
-/**
  在被选中数组中排序
  */
 @property(nonatomic,assign)NSInteger selectedIndex;

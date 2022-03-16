@@ -28,7 +28,7 @@
 #define MG_IS_IPHONEX ((MGMaxScreenWidth>=812)?YES:NO)
 #define MG_NAVIGATION_HEIGHT (MG_IS_IPHONEX ? 88 : 64)
 
-#define MGLocalString(keyName) (NSLocalizedStringFromTable(keyName,@"CWIPLocalizable",nil))
+#define MGLocalString(keyName) (NSLocalizedStringFromTable(keyName,@"MGImagePickerLocalizable",nil))
 
 #define MGDarkColor MGColorFromHex(0x2b2c37)
 #define MGGreenColor MGColorFromHex(0x1bac19)

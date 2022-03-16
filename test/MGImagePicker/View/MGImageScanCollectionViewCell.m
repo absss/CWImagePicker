@@ -132,6 +132,12 @@
     CGFloat CW = CGRectGetWidth(self.contentView.frame);
     CGFloat CH = CGRectGetHeight(self.contentView.frame);
     CGFloat W,H;
+    if (IW == 0 ||
+        IH == 0 ||
+        CW == 0 ||
+        CH == 0 ) {
+        return CGSizeZero;
+    }
     if (IW/IH > CW/CH) {
         W = CW;
         H = CW * IH / IW;
@@ -139,6 +145,7 @@
         H = CH;
         W = CH * IW / IH;
     }
+ 
     return CGSizeMake(W, H);
 }
 
@@ -177,4 +184,40 @@
 - (nullable UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView{
     return self.imageContainerView;
 }
+@end
+
+@implementation MGSmallImageCollectionViewCell
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self.contentView addSubview:self.imageView];
+    }
+    return self;
+}
+#pragma mark - setter
+- (void)setImageAsset:(MGAssetModel *)imageAsset{
+    _imageAsset = imageAsset;
+    [MGImagePickerHandler thumbnailImageWithAsset:imageAsset size:self.imageView.frame.size completion:^(UIImage *image,NSDictionary * info) {
+        self.imageView.image = image;
+    }];
+    if (imageAsset.isDisplay) {
+        self.contentView.layer.borderColor = MGGreenColor.CGColor;
+        self.contentView.layer.borderWidth = 2.0f;
+    }else{
+        self.contentView.layer.borderColor = [UIColor clearColor].CGColor;
+        self.contentView.layer.borderWidth = 0.0f;
+    }
+}
+
+
+- (UIImageView *)imageView{
+    if (!_imageView) {
+        _imageView = [[UIImageView alloc]initWithFrame: self.contentView.frame];
+        _imageView.contentMode = UIViewContentModeScaleAspectFill;
+        _imageView.clipsToBounds = YES;
+    }
+    return _imageView;
+}
+
 @end

@@ -27,6 +27,8 @@ typedef void(^MGImageFromAssetProgressBlock)(double progress, NSError *error, BO
 @property(nonatomic,strong) CWIPCache * cache;
 @property(nonatomic,strong) NSArray <MGAlbumModel *>*albumModelArray; // 可供选择的相册集
 @property(nonatomic,strong) MGAlbumModel * currentAlbumModel; //当前显示的相册
+@property(nonatomic,strong) NSMutableArray<MGAssetModel *> * selectedAssetModelArray; // 被选中的图片
+@property(nonatomic,copy) dispatch_block_t selectedAssetModelDidChangeBlock;
 
 
 /// 加载所有的相册信息
@@ -37,6 +39,14 @@ typedef void(^MGImageFromAssetProgressBlock)(double progress, NSError *error, BO
 /// @param albumModel 被选中的图册
 /// @param selected 状态
 - (void)selectAssetModel:(MGAssetModel *)assetModel albumModel:(MGAlbumModel *)albumModel selected:(BOOL) selected;
+
+/// 选中的图片需要重新排列
+- (void)selectedAssetModelArrayResort;
+
+
+/// 设置display属性
+/// @param model 数据
+- (void)setDisplayAsseetModel:(MGAssetModel *)model;
 
 + (instancetype)shareIntance;
 

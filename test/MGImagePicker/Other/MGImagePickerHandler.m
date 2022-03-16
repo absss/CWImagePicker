@@ -24,35 +24,36 @@
     assetModel.selected = selected;
     if ([MGImagePickerHandler shareIntance].option.isMultiPage) { // 多选
         if (assetModel.selected) {//选中某张图
-            if (![MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray containsObject:assetModel]) {
-                [MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray addObject:assetModel];
+            if (![MGImagePickerHandler.shareIntance.selectedAssetModelArray containsObject:assetModel]) {
+                [MGImagePickerHandler.shareIntance.selectedAssetModelArray addObject:assetModel];
             }
         }else{//取消选中某张图
-            if ([MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray containsObject:assetModel]) {
-                [MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray removeObject:assetModel];
+            if ([MGImagePickerHandler.shareIntance.selectedAssetModelArray containsObject:assetModel]) {
+                [MGImagePickerHandler.shareIntance.selectedAssetModelArray removeObject:assetModel];
             }
         }
     }else{
         //其他未选中的数据的selected都置为no//数组中其实只有一个数据，所以for循环其实跑的很快
-        for (MGAssetModel * model in MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray) {
+        for (MGAssetModel * model in MGImagePickerHandler.shareIntance.selectedAssetModelArray) {
             model.selected = NO;
         }
         if (assetModel.selected) {//选中某张图
-            if (![MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray containsObject:assetModel]) {
-                [MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray removeAllObjects];
-                [MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray addObject:assetModel];
+            if (![MGImagePickerHandler.shareIntance.selectedAssetModelArray containsObject:assetModel]) {
+                [MGImagePickerHandler.shareIntance.selectedAssetModelArray removeAllObjects];
+                [MGImagePickerHandler.shareIntance.selectedAssetModelArray addObject:assetModel];
             }
         }else{//取消选中某张图
-            if ([MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray containsObject:assetModel]) {
-                [MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray removeObject:assetModel];
+            if ([MGImagePickerHandler.shareIntance.selectedAssetModelArray containsObject:assetModel]) {
+                [MGImagePickerHandler.shareIntance.selectedAssetModelArray removeObject:assetModel];
             }
             
         }
     }
+    [self selectedAssetModelArrayResort]; // 重排序
     
-    [albumModel reSort]; // 重排序
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"MGImagePickerSelectedAssetArrayChanged" object:nil];
+    if (self.selectedAssetModelDidChangeBlock) {
+        self.selectedAssetModelDidChangeBlock();
+    }
 }
 
 
@@ -66,10 +67,29 @@
         manager.option = option;
         CWIPCache * cache = [[CWIPCache alloc]init];
         manager.cache = cache;
+        manager.selectedAssetModelArray = [NSMutableArray array];
 
     });
     return manager;
 }
+
+- (void)selectedAssetModelArrayResort {
+    // 重新排序
+    NSInteger i = 1;
+    for (MGAssetModel * model in self.selectedAssetModelArray) {
+        model.selectedIndex = i;
+        model.selected = YES;
+        i++;
+    }
+}
+
+- (void)setDisplayAsseetModel:(MGAssetModel *)model {
+    for (MGAssetModel *assetModel in MGImagePickerHandler.shareIntance.currentAlbumModel.assetModelArray) {
+        assetModel.displayed = NO;
+    }
+    model.displayed = YES;
+}
+
 
 - (void)setOption:(MGImagePickerOption *)option{
     if (option) {
@@ -78,9 +98,7 @@
 }
 
 - (void)loadData {
-    
     [self getAllAssets];
-    
     NSMutableArray *albums = [NSMutableArray array];
     //获取相机胶卷相册
     NSMutableArray *assetSubtypes = @[].mutableCopy;
@@ -289,7 +307,6 @@
         }
         MGAssetModel * assetModel = [self.assetModelDic objectForKey:asset.localIdentifier];
         assetModel.asset = asset;
-        assetModel.index = i;
         [allAssetArray addObject:assetModel];
         i++;
     }

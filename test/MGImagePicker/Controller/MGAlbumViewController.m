@@ -15,94 +15,6 @@
 #import "MGAlbumCategoryView.h"
 
 
-@interface MGAlbumViewCollectionViewCell()
-@property(nonatomic,strong) UIImageView * imageView;
-@property(nonatomic,strong) UILabel * numberLabel;
-@property(nonatomic,strong) MGImageSelectButton * selectButton;
-@end
-@implementation MGAlbumViewCollectionViewCell
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        [self.contentView addSubview:self.imageView];
-        [self.contentView addSubview:self.numberLabel];
-        [self.contentView addSubview:self.selectButton];
-        __weak typeof(self) weakSelf = self;
-        self.selectButton.showCountButtonActionBlock = ^(MGImageSelectButton *sender) {
-            [weakSelf selectAction:sender];
-        };
-        
-    }
-    return self;
-}
-
-
-
-#pragma mark - getter
-- (UIImageView *)imageView{
-    if (!_imageView) {
-        _imageView = [[UIImageView alloc]initWithFrame:self.contentView.frame];
-        _imageView.contentMode = UIViewContentModeScaleAspectFill;
-        _imageView.clipsToBounds = YES;
-    }
-    return _imageView;
-}
-
-- (MGImageSelectButton *)selectButton{
-    if (!_selectButton) {
-        _selectButton = [[MGImageSelectButton alloc]initWithFrame:CGRectMake(CGRectGetMaxY(self.contentView.frame)-kMGThumbnailSelectdButtonLength, 0, kMGThumbnailSelectdButtonLength, kMGThumbnailSelectdButtonLength)];
-        _selectButton.showCount = MGImagePickerHandler.shareIntance.option.isMultiPage;
-        _selectButton.hidden = [MGImagePickerHandler shareIntance].option.needCrop;
-     
-    }
-    return _selectButton;
-}
-
-- (UILabel *)numberLabel {
-    if (!_numberLabel) {
-        _numberLabel = [[UILabel alloc]init];
-        _numberLabel.frame = CGRectMake(10, 0, kMGThumbnailSelectdButtonLength, kMGThumbnailSelectdButtonLength);
-        _numberLabel.textColor = UIColor.redColor;
-    }
-    return _numberLabel;
-}
-#pragma mark - setter
-- (void)setImageAsset:(MGAssetModel *)imageAsset{
-    _imageAsset = imageAsset;
-    _selectButton.selected = imageAsset.selected;
-    if (imageAsset.selectedIndex > 0 &&  imageAsset.selected) {
-        _numberLabel.hidden = YES;
-//        _numberLabel.text = [NSString stringWithFormat:@"%ld",imageAsset.selectedIndex];
-        _selectButton.count = imageAsset.selectedIndex;
-    } else {
-        _numberLabel.hidden = YES;
-        _numberLabel.text = @"";
-        _selectButton.count = 0;
-    }
-    UIImage * image = [[MGImagePickerHandler shareIntance].cache objectForKey:imageAsset.asset.localIdentifier];
-    if (image) {
-        _imageView.image = image;
-    }else{
-        //把所有的缩略图都缓存起来也消耗不了多大内存(实测)，但是理论上会让滑动速度变快，关键是在大图不显示的时候，一定不能让它存在于内存中，一张小图也就几万像素，一张大图几百万像素，差了一万倍
-        [MGImagePickerHandler thumbnailImageWithAsset:imageAsset size:_imageView.frame.size completion:^(UIImage *image,NSDictionary *info) {
-            _imageView.image = image;
-            [[MGImagePickerHandler shareIntance].cache setObject:image forKey:imageAsset.asset.localIdentifier];
-        }];
-        
-    }
-    
-}
-
-#pragma mark - target selector
-- (void)selectAction:(UIButton *)sender{
-    if ([self.delegate respondsToSelector:@selector(didSelectedImageWithAssetModel:sender:)]) {
-        [self.delegate didSelectedImageWithAssetModel:self.imageAsset sender:sender];  
-    }
-}
-
-@end
-
 @interface MGAlbumViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,MGAlbumViewCollectionViewCellDelegate,MGCropImageViewControllerDelegate>
 @property(nonatomic,strong)UICollectionView * collectionView;
 @property(nonatomic,strong)MGImageOperateView * bottomView;
@@ -112,6 +24,11 @@
 @end
 
 @implementation MGAlbumViewController
+
+- (void)dealloc{
+    NSLog(@"%s",__func__);
+}
+
 - (instancetype)init
 {
     self = [super init];
@@ -132,10 +49,13 @@
     [self initData];
 }
 
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
 
 #pragma mark - private method
 - (void)refreshUI{
-    self.bottomView.selectedCount = MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray.count;
+    self.bottomView.selectedCount = MGImagePickerHandler.shareIntance.selectedAssetModelArray.count;
     [self.collectionView reloadData];
 }
 
@@ -146,7 +66,7 @@
         if ([picker.pickerDelegate respondsToSelector:@selector(controller:didSelectedImageArrayWithThumbnailImageArray:withAssetArray:)]) {
             NSMutableArray * mutArr = @[].mutableCopy;
             NSMutableArray * mutArr2 = @[].mutableCopy;
-            for (MGAssetModel * model in MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray) {
+            for (MGAssetModel * model in MGImagePickerHandler.shareIntance.selectedAssetModelArray) {
                 UIImage * image = [[MGImagePickerHandler shareIntance].cache objectForKey:model.asset.localIdentifier];
                 if (image) {
                     [mutArr addObject:image];
@@ -159,14 +79,17 @@
     };
     self.bottomView.imageOperateViewScanActionBlock = ^(UIButton *sender) {
         MGImageScanController * vc3 = [[MGImageScanController alloc]init];
-        MGAssetModel * model = MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray.firstObject;
-        vc3.displayIndexPath = [NSIndexPath indexPathForItem:model.index inSection:0];
+        MGAssetModel * assetModel = MGImagePickerHandler.shareIntance.selectedAssetModelArray.firstObject;
+        vc3.currentPage = [MGImagePickerHandler.shareIntance.currentAlbumModel.assetModelArray indexOfObject:assetModel];;
         [weakSelf.navigationController pushViewController:vc3 animated:YES];
     };
     
     self.albumCategoryView.didSelectAlbumBlock = ^(MGAlbumModel * _Nonnull model) {
         [weakSelf setCurrentAlbumModel:model];
         [weakSelf showOrDissmissAlbumCategoryView:weakSelf.titleView];
+    };
+    MGImagePickerHandler.shareIntance.selectedAssetModelDidChangeBlock = ^{
+        [weakSelf refreshUI];
     };
 }
 
@@ -198,9 +121,6 @@
     
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
 #pragma mark - UICollectionViewDataSource,UICollectionViewDelegate
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     return MGImagePickerHandler.shareIntance.currentAlbumModel.assetModelArray.count;
@@ -215,31 +135,32 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     [self.collectionView deselectItemAtIndexPath:indexPath animated:NO];
-    if ([MGImagePickerHandler shareIntance].option.needCrop) {//需要裁剪
-        [MGImagePickerHandler originImageWithAsset:MGImagePickerHandler.shareIntance.currentAlbumModel.assetModelArray[indexPath.row] completion:^(UIImage *image,NSDictionary *info) {
-            if ([info[PHImageResultIsDegradedKey] isEqual:@0]) {//高清图
-                CGFloat w = [MGImagePickerHandler shareIntance].option.cropFrameSize.width;
-                CGFloat h = [MGImagePickerHandler shareIntance].option.cropFrameSize.height;
-                MGCropImageViewController * cropVc = [[MGCropImageViewController alloc]initWithImage:image cropFrame:CGRectMake(MGScreenWidth/2-w/2, MGScreenHeight/2-h/2, w, h) limitScaleRatio:[MGImagePickerHandler shareIntance].option.allowMaxZoomScale];
-                cropVc.delegate = self;
-                if (![self.navigationController.visibleViewController isKindOfClass:NSClassFromString(@"MGCropImageViewController")]) {
-                    [self.navigationController pushViewController:cropVc animated:YES];
-                }
-
-            }
-        }];
-        
-    }else{
-        MGImageScanController * vc3 = [[MGImageScanController alloc]init];
-        vc3.displayIndexPath = indexPath;
-        [self.navigationController pushViewController:vc3 animated:YES];   
-    }
+    MGImageScanController * vc = [[MGImageScanController alloc]init];
+    vc.currentPage = indexPath.row;
+    [self.navigationController pushViewController:vc animated:YES];
+//    if ([MGImagePickerHandler shareIntance].option.needCrop) {//需要裁剪
+//        [MGImagePickerHandler originImageWithAsset:MGImagePickerHandler.shareIntance.currentAlbumModel.assetModelArray[indexPath.row] completion:^(UIImage *image,NSDictionary *info) {
+//            if ([info[PHImageResultIsDegradedKey] isEqual:@0]) {//高清图
+//                CGFloat w = [MGImagePickerHandler shareIntance].option.cropFrameSize.width;
+//                CGFloat h = [MGImagePickerHandler shareIntance].option.cropFrameSize.height;
+//                MGCropImageViewController * cropVc = [[MGCropImageViewController alloc]initWithImage:image cropFrame:CGRectMake(MGScreenWidth/2-w/2, MGScreenHeight/2-h/2, w, h) limitScaleRatio:[MGImagePickerHandler shareIntance].option.allowMaxZoomScale];
+//                cropVc.delegate = self;
+//                if (![self.navigationController.visibleViewController isKindOfClass:NSClassFromString(@"MGCropImageViewController")]) {
+//                    [self.navigationController pushViewController:cropVc animated:YES];
+//                }
+//
+//            }
+//        }];
+//
+//    }else{
+//
+//    }
 }
 
 #pragma mark - setter
 - (void)setCurrentAlbumModel:(MGAlbumModel *)currentAlbumModel {
     MGImagePickerHandler.shareIntance.currentAlbumModel = currentAlbumModel;
-    [currentAlbumModel reSort];
+    [MGImagePickerHandler.shareIntance selectedAssetModelArrayResort];
     [self.titleView setTitle:currentAlbumModel.assetCollection.localizedTitle forState:UIControlStateNormal];
     [self.titleView setTitle:currentAlbumModel.assetCollection.localizedTitle forState:UIControlStateSelected];
     [self refreshUI];
@@ -299,15 +220,15 @@ static NSString * reuseId = @"MGAlbumViewCollectionViewCell";
 
 #pragma mark - MGAlbumViewCollectionViewCellDelegate
 - (void)didSelectedImageWithAssetModel:(MGAssetModel *)assetModel sender:(UIButton *)sender{
-    if (MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray.count >= [MGImagePickerHandler shareIntance].option.maxAllowCount && sender.selected) {
-        NSString * str = [NSString stringWithFormat:MGLocalString(@"CWIPStr_Alert_maxSelectCount"), [MGImagePickerHandler shareIntance].option.maxAllowCount];
+    if (MGImagePickerHandler.shareIntance.selectedAssetModelArray.count >= [MGImagePickerHandler shareIntance].option.maxAllowCount && sender.selected) {
+        NSString * str = [NSString stringWithFormat:MGLocalString(@"MGStr_Alert_maxSelectCount"), [MGImagePickerHandler shareIntance].option.maxAllowCount];
         sender.selected = NO;
         [self alertViewWithTitle:str];
         return;
     }
     BOOL selected = sender.selected;
     [MGImagePickerHandler.shareIntance selectAssetModel:assetModel albumModel:MGImagePickerHandler.shareIntance.currentAlbumModel selected:selected];
-    [self refreshUI];
+    
 }
 
 
@@ -324,7 +245,4 @@ static NSString * reuseId = @"MGAlbumViewCollectionViewCell";
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)dealloc{
-    NSLog(@"%s",__func__);
-}
 @end

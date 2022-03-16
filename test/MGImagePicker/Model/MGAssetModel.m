@@ -13,9 +13,9 @@
 {
     self = [super init];
     if (self) {
-        _index = -1;
-        _selectedIndex = -1;
+        _selectedIndex = 0;
     }
     return self;
 }
+
 @end

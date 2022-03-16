@@ -35,16 +35,16 @@
         self.delegate = self;
 }
 
-- (void)setOption:(MGImagePickerOption *)option{
-    _option = option;
-    [MGImagePickerHandler shareIntance].option = option;
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 
 }
 
+
+- (void)setOption:(MGImagePickerOption *)option{
+    _option = option;
+    [MGImagePickerHandler shareIntance].option = option;
+}
 
 - (void)setupNavigationBar{
     //设置背景颜色
@@ -61,12 +61,12 @@
 
 - (void)setBackbarItemChinese:(UIViewController *)vc{
     UIBarButtonItem *backIetm = [[UIBarButtonItem alloc] init];
-    backIetm.title = MGLocalString(@"CWIPStr_Back");
+    backIetm.title = MGLocalString(@"MGStr_Back");
     vc.navigationItem.backBarButtonItem = backIetm;
 }
 
 - (void)setCancelButton:(UIViewController *)vc{
-    UIBarButtonItem * item = [[UIBarButtonItem alloc]initWithTitle:MGLocalString(@"CWIPStr_Cancel") style:UIBarButtonItemStylePlain target:self action:@selector(cancelAction)];
+    UIBarButtonItem * item = [[UIBarButtonItem alloc]initWithTitle:MGLocalString(@"MGStr_Cancel") style:UIBarButtonItemStylePlain target:self action:@selector(cancelAction)];
     vc.navigationItem.leftBarButtonItem = item;
 }
 
@@ -81,6 +81,9 @@
 - (void)dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion{
     //清空缓存
     [MGImagePickerHandler clearCache];
+    MGImagePickerHandler.shareIntance.albumModelArray = nil;
+    MGImagePickerHandler.shareIntance.currentAlbumModel = nil;
+    [MGImagePickerHandler.shareIntance.selectedAssetModelArray removeAllObjects];;
     [super dismissViewControllerAnimated:flag completion:completion];
 }
 

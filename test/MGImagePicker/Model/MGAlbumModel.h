@@ -13,8 +13,5 @@
 @interface MGAlbumModel : NSObject
 @property(nonatomic,strong) PHAssetCollection * assetCollection;
 @property(nonatomic,strong) NSArray <MGAssetModel *>* assetModelArray;
-@property(nonatomic,strong) NSMutableArray<MGAssetModel *> * selectedAssetModelArray; // 被选中的图片
 
-// 重新排序
-- (void)reSort;
 @end

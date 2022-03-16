@@ -65,7 +65,7 @@
 {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor blackColor];
-        self.title = MGLocalString(@"CWIPStr_selectImageTitle");
+        self.title = MGLocalString(@"MGStr_selectImageTitle");
     
     [self initView];
     
@@ -120,8 +120,8 @@
 }
 
 - (void)setupNavigationBar{
-    UIBarButtonItem * leftItem = [[UIBarButtonItem alloc]initWithTitle:MGLocalString(@"CWIPStr_Cancel") style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)];
-    UIBarButtonItem * rightItem = [[UIBarButtonItem alloc]initWithTitle:MGLocalString(@"CWIPStr_Confirm") style:UIBarButtonItemStylePlain target:self action:@selector(confirm:)];
+    UIBarButtonItem * leftItem = [[UIBarButtonItem alloc]initWithTitle:MGLocalString(@"MGStr_Cancel") style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)];
+    UIBarButtonItem * rightItem = [[UIBarButtonItem alloc]initWithTitle:MGLocalString(@"MGStr_Confirm") style:UIBarButtonItemStylePlain target:self action:@selector(confirm:)];
     self.navigationItem.leftBarButtonItem = leftItem;
     self.navigationItem.rightBarButtonItem = rightItem;
 }

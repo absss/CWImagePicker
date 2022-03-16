@@ -1,0 +1,17 @@
+/* 
+  MGImagePickerLocalizable.strings
+  test
+
+  Created by hehaichi on 2017/12/14.
+  Copyright © 2017年 app. All rights reserved.
+*/
+"MGStr_Title_allImage" = "所有图片";
+"MGStr_Alert_maxSelectCount" = "您最多只能选择%ld张";
+"MGStr_Back" = "返回";
+"MGStr_Cancel" = "取消";
+"MGStr_Send" = "发送";
+"MGStr_Confirm" = "确认";
+"MGStr_Phonos" = "照片";
+"MGStr_selectImageTitle" = "选取图片";
+"MGStr_SendImage" = "发送(%ld)";
+"MGStr_Scan" = "预览";

@@ -9,20 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "MGImageMarco.h"
 @interface MGImageScanController : UIViewController
-///**
-// 所有的图片的assetArray
-// */
-//@property(nonatomic,strong)NSArray<MGAssetModel *> * assetModelArray;
-
 /**
  正在显示的indexpath
  */
-@property(nonatomic,strong)NSIndexPath * displayIndexPath;
-
-///**
-// 被选中的assetArray
-// */
-//@property(nonatomic,strong)NSMutableArray<MGAssetModel *> * selectedAssetArray;
+@property(nonatomic,assign) NSInteger currentPage;
 
 /**
  选中的图片发生变化

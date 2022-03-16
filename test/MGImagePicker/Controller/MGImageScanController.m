@@ -15,50 +15,12 @@
 #import "MGImagePickerViewController.h"
 #import "MGAlbumViewController.h"
 
-@interface MGSmallImageCollectionViewCell : UICollectionViewCell
-@property(nonatomic,strong)UIImageView * imageView;
-@property(nonatomic,strong)MGAssetModel * imageAsset;
 
 
-@end
-@implementation MGSmallImageCollectionViewCell
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        [self.contentView addSubview:self.imageView];
-    }
-    return self;
-}
-#pragma mark - setter
-- (void)setImageAsset:(MGAssetModel *)imageAsset{
-    _imageAsset = imageAsset;
-    [MGImagePickerHandler thumbnailImageWithAsset:imageAsset size:self.imageView.frame.size completion:^(UIImage *image,NSDictionary * info) {
-        self.imageView.image = image;
-    }];
-    if (imageAsset.isDisplay) {
-        self.contentView.layer.borderColor = MGGreenColor.CGColor;
-        self.contentView.layer.borderWidth = 1.5;
-    }else{
-        self.contentView.layer.borderColor = [UIColor clearColor].CGColor;
-        self.contentView.layer.borderWidth = 0.0;
-    }
-}
-
-
-- (UIImageView *)imageView{
-    if (!_imageView) {
-        _imageView = [[UIImageView alloc]initWithFrame: self.contentView.frame];
-    }
-    return _imageView;
-}
-
-@end
 @interface MGImageScanController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,MGImageScanCollectionViewCellDelegate,MGCropImageViewControllerDelegate,UINavigationControllerDelegate>
 @property(nonatomic,strong)MGImageOperateView * bottomView;
 @property(nonatomic,strong)UICollectionView * collectionView;//使用collectionView好处是有复用
 @property(nonatomic,strong)UICollectionView * smallCollectionView;
-@property(nonatomic,assign)NSInteger currentPage;
 
 @property(nonatomic,assign,getter=isEnlager)BOOL enlarger;
 @property(nonatomic,assign,getter=headAndFootIsHidden)BOOL hiddenHeadAndFoot;
@@ -96,13 +58,21 @@ const static int kBigImageCollectionViewTag = 999;
     [self.view addSubview:self.bottomView];
     
     [self setupBlock];
+    [self refreshBottomView];
+    [self refreshRightNavItem];
     
+//    [self.collectionView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 
 }
+
+- (void)dealloc{
+    NSLog(@"%s",__func__);
+}
+
 
 #pragma mark - setter
 
@@ -113,21 +83,16 @@ const static int kBigImageCollectionViewTag = 999;
     if (hiddenHeadAndFoot) {
         self.smallCollectionView.hidden = YES;
     } else {
-        self.smallCollectionView.hidden = MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray.count>0? NO: YES;
+        self.smallCollectionView.hidden = MGImagePickerHandler.shareIntance.selectedAssetModelArray.count>0? NO: YES;
     }
 }
 
+- (void)setCurrentPage:(NSInteger)currentPage {
+    _currentPage = currentPage;
+    if (MGImagePickerHandler.shareIntance.currentAlbumModel.assetModelArray.count > currentPage) {
+        MGAssetModel *model = MGImagePickerHandler.shareIntance.currentAlbumModel.assetModelArray[currentPage];
+        [MGImagePickerHandler.shareIntance setDisplayAsseetModel:model];
 
-- (void)setDisplayIndexPath:(NSIndexPath *)displayIndexPath {
-    _displayIndexPath = displayIndexPath;
-    MGAssetModel * selectedModel = MGImagePickerHandler.shareIntance.currentAlbumModel.assetModelArray[displayIndexPath.row];
-    selectedModel.displayed = YES;
-    for (MGAssetModel * model in MGImagePickerHandler.shareIntance.currentAlbumModel.assetModelArray) {
-        if (model.index == displayIndexPath.row) {
-            model.displayed = YES;
-        }else{
-            model.displayed = NO;
-        }
     }
 }
 
@@ -163,49 +128,57 @@ const static int kBigImageCollectionViewTag = 999;
         _collectionView.alwaysBounceHorizontal = NO;
         _collectionView.bounces = NO;
         _collectionView.tag = kBigImageCollectionViewTag;
-        [_collectionView selectItemAtIndexPath:self.displayIndexPath animated:YES scrollPosition:UICollectionViewScrollPositionRight];
+        [_collectionView setContentOffset:CGPointMake(self.currentPage*MGScreenWidth, 0)];
     }
     return _collectionView;
 }
 
 - (UICollectionView *)smallCollectionView{
     if (!_smallCollectionView) {
-        if ([MGImagePickerHandler shareIntance].option.isMultiPage) {
-            UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]init];
-            flowLayout.minimumLineSpacing = 10;
-            flowLayout.minimumInteritemSpacing = 10;
-            flowLayout.itemSize = CGSizeMake(35, 35);
-            flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-            
-            _smallCollectionView = [[UICollectionView alloc]initWithFrame: CGRectMake(0,CGRectGetMaxY(self.view.frame)-CGRectGetHeight(self.bottomView.frame)-50, MGScreenWidth,50) collectionViewLayout:flowLayout];
-            _smallCollectionView.backgroundColor = MGDarkColor;
-            _smallCollectionView.delegate = self;
-            _smallCollectionView.dataSource = self;
-            [_smallCollectionView registerClass:[MGSmallImageCollectionViewCell class] forCellWithReuseIdentifier:reuseId2];
-            _smallCollectionView.alwaysBounceVertical = NO;
-            _smallCollectionView.alwaysBounceHorizontal = NO;
-            _smallCollectionView.bounces = NO;
-            _smallCollectionView.tag = kSmallImageCollectionViewTag;
-            _smallCollectionView.hidden  = !(MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray.count>0);
-        }else{
-            _smallCollectionView = nil;
-        }
+        UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]init];
+        flowLayout.minimumLineSpacing = 10;
+        flowLayout.minimumInteritemSpacing = 10;
+        flowLayout.itemSize = CGSizeMake(45, 45);
+        flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         
+        _smallCollectionView = [[UICollectionView alloc]initWithFrame: CGRectMake(0,CGRectGetMaxY(self.view.frame)-CGRectGetHeight(self.bottomView.frame)-60, MGScreenWidth,60) collectionViewLayout:flowLayout];
+        _smallCollectionView.backgroundColor = MGDarkColor;
+        _smallCollectionView.delegate = self;
+        _smallCollectionView.dataSource = self;
+        [_smallCollectionView registerClass:[MGSmallImageCollectionViewCell class] forCellWithReuseIdentifier:reuseId2];
+        _smallCollectionView.alwaysBounceVertical = NO;
+        _smallCollectionView.alwaysBounceHorizontal = NO;
+        _smallCollectionView.bounces = NO;
+        _smallCollectionView.tag = kSmallImageCollectionViewTag;
+        _smallCollectionView.hidden  = !(MGImagePickerHandler.shareIntance.selectedAssetModelArray.count>0);
+        _smallCollectionView.contentInset = UIEdgeInsetsMake(0, 10, 0, 10);
         
     }
     return _smallCollectionView;
 }
 
 #pragma mark - private method
-- (void)refreshUI{
-    _bottomView.selectedCount = MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray.count;
-    if (MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray.count < 1) {
+/// 刷新底部视图
+- (void)refreshBottomView {
+    _bottomView.selectedCount = MGImagePickerHandler.shareIntance.selectedAssetModelArray.count;
+    if (MGImagePickerHandler.shareIntance.selectedAssetModelArray.count < 1) {
         self.smallCollectionView.hidden = YES;
     }else{
         self.smallCollectionView.hidden = NO;
     }
-    [self refreshRightNavItemWithIdx:MGImagePickerHandler.shareIntance.currentAlbumModel.assetModelArray[self.displayIndexPath.row].index];
+    [self.smallCollectionView reloadData];
+    
+}
 
+// 刷新顶部视图
+- (void)refreshRightNavItem {
+    if (self.currentPage >= MGImagePickerHandler.shareIntance.currentAlbumModel.assetModelArray.count) {
+        return;
+    }
+    MGImageSelectButton * button = (MGImageSelectButton*)self.navigationItem.rightBarButtonItem.customView;
+    MGAssetModel * model = MGImagePickerHandler.shareIntance.currentAlbumModel.assetModelArray[self.currentPage];
+    button.selected = model.selected;
+    button.count = model.selectedIndex;
 }
 
 - (void)setupBlock{
@@ -216,7 +189,7 @@ const static int kBigImageCollectionViewTag = 999;
         if ([picker.pickerDelegate respondsToSelector:@selector(controller: didSelectedImageArrayWithThumbnailImageArray:withAssetArray:)]) {
             NSMutableArray * mutArr = @[].mutableCopy;
             NSMutableArray * mutArr2 =@[].mutableCopy;
-            for (MGAssetModel * model in MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray) {
+            for (MGAssetModel * model in MGImagePickerHandler.shareIntance.selectedAssetModelArray) {
                 UIImage * image = [[MGImagePickerHandler shareIntance].cache objectForKey:model.asset.localIdentifier];
                 if (image) {
                     [mutArr addObject:image];
@@ -242,15 +215,34 @@ const static int kBigImageCollectionViewTag = 999;
 }
 
 
+- (void)selectAction:(UIButton *)sender {
+   
+    if (MGImagePickerHandler.shareIntance.selectedAssetModelArray.count >= [MGImagePickerHandler shareIntance].option.maxAllowCount &&  sender.selected) {
+        NSString * str = [NSString stringWithFormat:MGLocalString(@"MGStr_Alert_maxSelectCount"), [MGImagePickerHandler shareIntance].option.maxAllowCount];
+        [self alertViewWithTitle:str];
+        sender.selected = NO;
+        return;
+    }
+    BOOL selected = sender.selected;
+    MGAssetModel * assetModel = MGImagePickerHandler.shareIntance.currentAlbumModel.assetModelArray[self.currentPage];
+    [MGImagePickerHandler.shareIntance selectAssetModel:assetModel albumModel:MGImagePickerHandler.shareIntance.currentAlbumModel selected:selected];
+    [self refreshBottomView];
+    [self refreshRightNavItem];
+}
+
+
 #pragma mark - UICollectionViewDelegate,UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     if (collectionView.tag == kBigImageCollectionViewTag) {//大图
         return MGImagePickerHandler.shareIntance.currentAlbumModel.assetModelArray.count;
     }else{//小图
-        return MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray.count;
+        return MGImagePickerHandler.shareIntance.selectedAssetModelArray.count;
     }
 }
 
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+    return 1;
+}
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     if (collectionView.tag == kBigImageCollectionViewTag) {
@@ -259,7 +251,7 @@ const static int kBigImageCollectionViewTag = 999;
         return cell;
     }else{
         MGSmallImageCollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseId2 forIndexPath:indexPath];
-        cell.imageAsset = MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray[indexPath.row];
+        cell.imageAsset = MGImagePickerHandler.shareIntance.selectedAssetModelArray[indexPath.row];
         return cell;
     }
 }
@@ -270,42 +262,48 @@ const static int kBigImageCollectionViewTag = 999;
     }
 }
 
+
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     [collectionView deselectItemAtIndexPath:indexPath animated:NO];
-    if (collectionView.tag == kSmallImageCollectionViewTag) {
-        self.displayIndexPath = indexPath;
-        MGAssetModel * model = MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray[indexPath.row];
-        for (int i = 0; i < MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray.count; i++) {
-            if (i == indexPath.row) {
-                model.displayed = YES;
-            }else{
-                model.displayed = NO;
-            }
+    if (collectionView.tag == kSmallImageCollectionViewTag) { // 小图
+        
+        if (indexPath.row >= MGImagePickerHandler.shareIntance.selectedAssetModelArray.count) {
+            return;
         }
-        self.collectionView.contentOffset = CGPointMake(CGRectGetWidth(self.view.frame)*model.index, 0);
-        [self.smallCollectionView reloadData];
-        [self refreshRightNavItemWithIdx:model.index];
-       
+        MGAssetModel * assetModel = MGImagePickerHandler.shareIntance.selectedAssetModelArray[indexPath.row];
+        [MGImagePickerHandler.shareIntance selectAssetModel:assetModel albumModel:MGImagePickerHandler.shareIntance.currentAlbumModel selected:YES];
+    
+        self.collectionView.contentOffset = CGPointMake(CGRectGetWidth(self.view.frame)*self.currentPage, 0);
+        self.currentPage = [MGImagePickerHandler.shareIntance.currentAlbumModel.assetModelArray indexOfObject:assetModel];
+        [self refreshRightNavItem];
+        [self refreshBottomView];
     }
 }
 
-- (void)refreshRightNavItemWithIdx:(NSInteger )idx{
-    MGImageSelectButton * button = (MGImageSelectButton*)self.navigationItem.rightBarButtonItem.customView;
-    MGAssetModel * model = MGImagePickerHandler.shareIntance.currentAlbumModel.assetModelArray[idx];
-    button.selected = model.selected;
-    button.count = model.selectedIndex;
-     [button setNeedsLayout];
-}
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+
+}
+
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     if (_collectionView.tag == kBigImageCollectionViewTag) {//大collection
         NSInteger idx = scrollView.contentOffset.x/CGRectGetWidth(self.view.frame);
-        NSIndexPath * indexPath = [NSIndexPath indexPathForRow:idx inSection:0];
-        self.displayIndexPath = indexPath;
-        MGAssetModel * model = MGImagePickerHandler.shareIntance.currentAlbumModel.assetModelArray[idx];
-        [self refreshRightNavItemWithIdx:idx];
-        if (model.displayed) {
-            [self.smallCollectionView reloadData];
+        if (idx != self.currentPage) {
+            self.currentPage = idx;
+            [self refreshRightNavItem];
+            [self refreshBottomView];
+        }
+    }
+}
+
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
+    if (_collectionView.tag == kBigImageCollectionViewTag) {//大collection
+        NSInteger idx = scrollView.contentOffset.x/CGRectGetWidth(self.view.frame);
+        if (idx != self.currentPage) {
+            self.currentPage = idx;
+            [self refreshRightNavItem];
+            [self refreshBottomView];
         }
     }
 }
@@ -331,52 +329,5 @@ const static int kBigImageCollectionViewTag = 999;
     [cropperViewController.navigationController popViewControllerAnimated:YES];
 }
 
-
-#pragma mark - target selector
-- (void)selectAction:(UIButton *)sender {
-   
-    if (MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray.count >= [MGImagePickerHandler shareIntance].option.maxAllowCount &&  sender.selected) {
-        NSString * str = [NSString stringWithFormat:MGLocalString(@"CWIPStr_Alert_maxSelectCount"), [MGImagePickerHandler shareIntance].option.maxAllowCount];
-        [self alertViewWithTitle:str];
-        sender.selected = NO;
-        return;
-    }
-    
-    MGAssetModel * model = MGImagePickerHandler.shareIntance.currentAlbumModel.assetModelArray[self.displayIndexPath.row];
-    if ([MGImagePickerHandler shareIntance].option.isMultiPage) {
-        if (sender.selected) {
-            model.selected = YES;
-            if (![MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray containsObject:model]) {
-                [MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray addObject:model];
-            }
-        }else{
-            model.selected = NO;
-            if ([MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray containsObject:model]) {
-                [MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray removeObject:model];
-            }
-        }
-        [self.smallCollectionView reloadData];
-        
-    } else{
-        if (sender.selected) {
-            model.selected = YES;
-            for (MGAssetModel * model in MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray) {
-                model.selected = NO;
-            }
-            [MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray removeAllObjects];
-            [MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray addObject:model];
-            [self refreshUI];
-        }else{
-            model.selected = NO;
-            [MGImagePickerHandler.shareIntance.currentAlbumModel.selectedAssetModelArray removeObject:model];
-        }
-        
-    }
-    [self refreshUI];
-}
-
-- (void)dealloc{
-    NSLog(@"%s",__func__);
-}
 
 @end

@@ -44,7 +44,7 @@
             }];
 
     }else{
-        self.thumbnailImageView.image = [UIImage imageNamed:@"CWIPResource.bundle/placeholder.png"];
+        self.thumbnailImageView.image = [UIImage imageNamed:@"MGImagePickerResource.bundle/placeholder.png"];
     }
     
     NSString * str = [NSString stringWithFormat:@"%@(%ld)",title,count];

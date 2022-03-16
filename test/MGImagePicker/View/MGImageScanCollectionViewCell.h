@@ -57,3 +57,9 @@
 - (CGFloat)zoomImageWithSize:(CGSize)targetSize animate:(BOOL)animate;
 - (void)clearOriginImageifDontNeed;
 @end
+
+
+@interface MGSmallImageCollectionViewCell : UICollectionViewCell
+@property(nonatomic,strong)UIImageView * imageView;
+@property(nonatomic,strong)MGAssetModel * imageAsset;
+@end

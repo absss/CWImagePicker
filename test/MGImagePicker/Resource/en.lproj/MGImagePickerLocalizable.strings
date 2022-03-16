@@ -1,0 +1,17 @@
+/* 
+  MGImagePickerLocalizable.strings
+  test
+
+  Created by hehaichi on 2017/12/14.
+  Copyright © 2017年 app. All rights reserved.
+*/
+"MGStr_Title_allImage" = "All Image";
+"MGStr_Alert_maxSelectCount" = "You can only choose %ld sheets at most";
+"MGStr_Back" = "Back";
+"MGStr_Cancel" = "Cancel";
+"MGStr_Send" = "Send";
+"MGStr_Confirm" = "Confirm";
+"MGStr_Phonos" = "Phonos";
+"MGStr_selectImageTitle" = "Select image";
+"MGStr_SendImage" = "Send(%ld)";
+"MGStr_Scan" = "Scan";
